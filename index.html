@@ -5,13 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quality Audit Sample Generator</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f2f5;padding:15px;color:#333}.container{max-width:1600px;margin:0 auto}h1{text-align:center;color:#1a3a5c;margin-bottom:4px;font-size:1.7em}.subtitle{text-align:center;color:#666;margin-bottom:20px;font-size:.95em}.card{background:#fff;border-radius:10px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.1);margin-bottom:22px}.card h2{color:#1a3a5c;margin-bottom:16px;font-size:1.2em;border-bottom:2px solid #4472C4;padding-bottom:7px}.btn{padding:8px 20px;border:none;border-radius:5px;font-size:.9em;cursor:pointer;font-weight:500;transition:background .2s}.btn-primary{background:#4472C4;color:#fff}.btn-primary:hover{background:#365fa0}.btn-success{background:#27ae60;color:#fff}.btn-success:hover{background:#1e8449}.btn-secondary{background:#6c757d;color:#fff}.btn-secondary:hover{background:#545b62}.btn-warning{background:#f39c12;color:#fff}.btn-warning:hover{background:#d68910}.btn-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}.drop-zone{border:2px dashed #4472C4;border-radius:10px;padding:35px;text-align:center;color:#666;cursor:pointer;transition:all .2s}.drop-zone:hover,.drop-zone.drag-over{background:#e8f0fe;border-color:#2c5aa0}.upload-status{padding:8px 14px;border-radius:5px;margin-top:8px;display:none;font-size:.88em}.upload-status.success{display:block;background:#d4edda;color:#155724}.upload-status.error{display:block;background:#f8d7da;color:#721c24}.upload-status.warning{display:block;background:#fff3cd;color:#856404}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}.stat-box{background:#f8f9fa;border-radius:8px;padding:14px;text-align:center;border-left:4px solid #4472C4}.stat-box .stat-value{font-size:1.5em;font-weight:700;color:#1a3a5c}.stat-box .stat-label{font-size:.78em;color:#666;margin-top:4px}.stat-box.green{border-left-color:#27ae60}.stat-box.orange{border-left-color:#f39c12}.stat-box.red{border-left-color:#e74c3c}.stat-box.purple{border-left-color:#8e44ad}table{width:100%;border-collapse:collapse;font-size:.82em}th,td{border:1px solid #ddd;padding:6px 8px;text-align:left}thead th{background:#4472C4;color:#fff;font-weight:600;position:sticky;top:0}tbody tr:nth-child(even){background:#f5f7fa}tbody tr:hover{background:#e3ecf7}.table-container{max-height:500px;overflow-y:auto;border:1px solid #ddd;border-radius:6px}.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.75em;font-weight:500}.badge-green{background:#d4edda;color:#155724}.badge-red{background:#f8d7da;color:#721c24}.badge-orange{background:#fff3cd;color:#856404}.coverage-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px;margin-top:10px;font-size:.82em}.coverage-item{padding:4px 8px;border-radius:4px;display:flex;justify-content:space-between}.coverage-item.covered{background:#d4edda}.coverage-item.not-covered{background:#f8d7da}.config-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.config-row label{font-size:.85em;color:#555;font-weight:500}.config-row input,.config-row select{padding:5px 10px;border:1px solid #ddd;border-radius:4px;font-size:.88em}.hidden{display:none}.tab-container{display:flex;gap:0;margin-bottom:0;flex-wrap:wrap}.tab-btn{padding:10px 22px;border:none;background:#e9ecef;cursor:pointer;font-size:.9em;font-weight:500;color:#555;border-radius:8px 8px 0 0}.tab-btn.active{background:#fff;color:#1a3a5c;box-shadow:0 -2px 4px rgba(0,0,0,.05)}.tab-btn:hover:not(.active){background:#dee2e6}.config-table{width:100%;border-collapse:collapse;font-size:.82em;margin-top:10px}.config-table th,.config-table td{border:1px solid #ddd;padding:5px 8px;text-align:left}.config-table thead th{background:#f0f2f5;color:#333;font-weight:600}.config-table input[type="number"]{width:65px;padding:3px 6px;border:1px solid #ccc;border-radius:3px;font-size:.9em}.config-section{margin-top:16px;padding-top:14px;border-top:1px solid #eee}.config-section h3{font-size:.95em;color:#1a3a5c;margin-bottom:8px}.config-section p{font-size:.82em;color:#666;margin-bottom:6px}.collapsible-header{cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none}.collapsible-header:hover{color:#4472C4}.collapsible-body{max-height:300px;overflow-y:auto;border:1px solid #eee;border-radius:4px}.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72em;font-weight:600}.tag-sensitive{background:#fde2e2;color:#c0392b}.tag-reassign{background:#d6eaf8;color:#1a5276}.tag-reopen{background:#d5f5e3;color:#1e8449}.tag-fallback{background:#fdebd0;color:#935116}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f2f5;padding:15px;color:#333}.container{max-width:1600px;margin:0 auto}h1{text-align:center;color:#1a3a5c;margin-bottom:4px;font-size:1.7em}.subtitle{text-align:center;color:#666;margin-bottom:20px;font-size:.95em}.card{background:#fff;border-radius:10px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.1);margin-bottom:22px}.card h2{color:#1a3a5c;margin-bottom:16px;font-size:1.2em;border-bottom:2px solid #4472C4;padding-bottom:7px}
+.btn{padding:8px 20px;border:none;border-radius:5px;font-size:.9em;cursor:pointer;font-weight:500;transition:background .2s}.btn-primary{background:#4472C4;color:#fff}.btn-primary:hover{background:#365fa0}.btn-success{background:#27ae60;color:#fff}.btn-success:hover{background:#1e8449}.btn-secondary{background:#6c757d;color:#fff}.btn-secondary:hover{background:#545b62}.btn-warning{background:#f39c12;color:#fff}.btn-warning:hover{background:#d68910}.btn-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.drop-zone{border:2px dashed #4472C4;border-radius:10px;padding:35px;text-align:center;color:#666;cursor:pointer;transition:all .2s}.drop-zone:hover,.drop-zone.drag-over{background:#e8f0fe;border-color:#2c5aa0}
+.upload-status{padding:8px 14px;border-radius:5px;margin-top:8px;display:none;font-size:.88em}.upload-status.success{display:block;background:#d4edda;color:#155724}.upload-status.error{display:block;background:#f8d7da;color:#721c24}.upload-status.warning{display:block;background:#fff3cd;color:#856404}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}.stat-box{background:#f8f9fa;border-radius:8px;padding:14px;text-align:center;border-left:4px solid #4472C4}.stat-box .stat-value{font-size:1.5em;font-weight:700;color:#1a3a5c}.stat-box .stat-label{font-size:.78em;color:#666;margin-top:4px}.stat-box.green{border-left-color:#27ae60}.stat-box.orange{border-left-color:#f39c12}.stat-box.red{border-left-color:#e74c3c}.stat-box.purple{border-left-color:#8e44ad}
+table{width:100%;border-collapse:collapse;font-size:.82em}th,td{border:1px solid #ddd;padding:6px 8px;text-align:left}thead th{background:#4472C4;color:#fff;font-weight:600;position:sticky;top:0}tbody tr:nth-child(even){background:#f5f7fa}tbody tr:hover{background:#e3ecf7}
+.table-container{max-height:500px;overflow-y:auto;border:1px solid #ddd;border-radius:6px}.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.75em;font-weight:500}.badge-green{background:#d4edda;color:#155724}.badge-red{background:#f8d7da;color:#721c24}.badge-orange{background:#fff3cd;color:#856404}
+.coverage-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px;margin-top:10px;font-size:.82em}.coverage-item{padding:4px 8px;border-radius:4px;display:flex;justify-content:space-between}.coverage-item.covered{background:#d4edda}.coverage-item.not-covered{background:#f8d7da}
+.config-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.config-row label{font-size:.85em;color:#555;font-weight:500}.config-row input,.config-row select{padding:5px 10px;border:1px solid #ddd;border-radius:4px;font-size:.88em}
+.hidden{display:none}.tab-container{display:flex;gap:0;margin-bottom:0;flex-wrap:wrap}.tab-btn{padding:10px 22px;border:none;background:#e9ecef;cursor:pointer;font-size:.9em;font-weight:500;color:#555;border-radius:8px 8px 0 0}.tab-btn.active{background:#fff;color:#1a3a5c;box-shadow:0 -2px 4px rgba(0,0,0,.05)}.tab-btn:hover:not(.active){background:#dee2e6}
+.config-table{width:100%;border-collapse:collapse;font-size:.82em;margin-top:10px}.config-table th,.config-table td{border:1px solid #ddd;padding:5px 8px;text-align:left}.config-table thead th{background:#f0f2f5;color:#333;font-weight:600}.config-table input[type="number"]{width:65px;padding:3px 6px;border:1px solid #ccc;border-radius:3px;font-size:.9em}
+.config-section{margin-top:16px;padding-top:14px;border-top:1px solid #eee}.config-section h3{font-size:.95em;color:#1a3a5c;margin-bottom:8px}.config-section p{font-size:.82em;color:#666;margin-bottom:6px}
+.collapsible-header{cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none}.collapsible-header:hover{color:#4472C4}.collapsible-body{max-height:300px;overflow-y:auto;border:1px solid #eee;border-radius:4px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72em;font-weight:600}.tag-sensitive{background:#fde2e2;color:#c0392b}.tag-reassign{background:#d6eaf8;color:#1a5276}.tag-reopen{background:#d5f5e3;color:#1e8449}.tag-fallback{background:#fdebd0;color:#935116}
+.missing-logins-card{background:#fff;border-radius:10px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.1);margin-bottom:22px;border-left:4px solid #e74c3c}
+.missing-logins-card h2{color:#e74c3c;margin-bottom:16px;font-size:1.2em;border-bottom:2px solid #e74c3c;padding-bottom:7px}
+.missing-login-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-top:10px;font-size:.82em}
+.missing-login-item{padding:6px 10px;border-radius:4px;background:#f8d7da;display:flex;justify-content:space-between;align-items:center}
+.missing-login-item .login-name{font-weight:600;color:#721c24}
+.missing-login-item .login-skill{font-size:.78em;color:#856404;background:#fff3cd;padding:1px 6px;border-radius:8px}
+.under4-row{background:#fff3cd !important}
+.under4-highlight{background:#fde2e2 !important}
 </style>
 </head>
 <body>
 <div class="container">
 <h1>Quality Audit Sample Generator</h1>
-<p class="subtitle">Multi-Type Sampling: Sensitive | Reassign | Reopen | Total 4 per Login | Auditor Assignment</p>
+<p class="subtitle">Multi-Type Sampling: Sensitive | Reassign | Reopen | Total 4 per Login | Auditor Assignment | HC Roster Validation</p>
 <!-- Upload -->
 <div class="card">
 <h2>Upload Raw Data</h2>
@@ -25,6 +46,16 @@
 <textarea id="pasteArea" rows="4" placeholder="Paste rows (tab/comma separated) with headers" style="width:100%;border:1px solid #ddd;border-radius:6px;padding:10px;font-size:.85em;font-family:monospace;resize:vertical"></textarea>
 <button class="btn btn-secondary" style="margin-top:8px" onclick="handlePaste()">Process Pasted Data</button>
 <div id="uploadStatus" class="upload-status"></div>
+</div>
+<!-- Missing Logins Alert -->
+<div class="missing-logins-card hidden" id="missingLoginsCard">
+<h2>&#9888;&#65039; Missing Logins from HC Roster (WK 27 2026)</h2>
+<p style="font-size:.85em;color:#555;margin-bottom:8px">These logins from the HC RR roster have <b>NO tickets</b> in the uploaded raw data. They will NOT get 4 audits.</p>
+<div class="stats-grid" id="missingLoginsStats"></div>
+<div class="collapsible-header" onclick="toggleSection('missingLoginsListBody')"><span>&#9654;</span><h3 style="margin:0;color:#721c24">View Missing Logins List</h3></div>
+<div id="missingLoginsListBody" class="hidden">
+<div class="missing-login-grid" id="missingLoginsList"></div>
+</div>
 </div>
 <!-- Config -->
 <div class="card hidden" id="configCard">
@@ -72,6 +103,7 @@
 <button class="tab-btn" onclick="showTab('loginDist')">Login Distribution</button>
 <button class="tab-btn" onclick="showTab('auditorDist')">Auditor Distribution</button>
 <button class="tab-btn" onclick="showTab('typeDist')">Type Breakdown</button>
+<button class="tab-btn" onclick="showTab('under4')" id="under4Tab">&#9888; Under 4 Audits</button>
 </div>
 <div id="tab-sample" style="margin-top:12px">
 <div class="btn-row" style="margin-bottom:12px;margin-top:0"><button class="btn btn-success" onclick="exportCSV()">Export CSV</button><button class="btn btn-warning" onclick="generateSample()">Re-generate</button></div>
@@ -81,9 +113,122 @@
 <div id="tab-loginDist" class="hidden" style="margin-top:12px"><div class="table-container" id="loginDistTable"></div></div>
 <div id="tab-auditorDist" class="hidden" style="margin-top:12px"><div class="table-container" id="auditorDistTable"></div></div>
 <div id="tab-typeDist" class="hidden" style="margin-top:12px"><div class="table-container" id="typeDistTable"></div></div>
+<div id="tab-under4" class="hidden" style="margin-top:12px"><div class="table-container" id="under4Table"></div></div>
 </div>
 </div>
 <script>
+// ===== HC ROSTER WK 27 2026 - Required Logins for Auditing =====
+const HC_ROSTER_WK27 = [
+{login:"aaishwaa",skill:"AIND",site:"MAA"},{login:"aakansse",skill:"AIND",site:"UP"},{login:"abduljsw",skill:"ESLIS",site:"HYD"},{login:"abinesru",skill:"AIND",site:"MAA"},{login:"adibbhar",skill:"FBA",site:"AP"},
+{login:"adriuban",skill:"AIND",site:"MNL"},{login:"adrosmil",skill:"AIND",site:"MNL"},{login:"agcelsia",skill:"AIND",site:"MAA"},{login:"agnemadr",skill:"Brand",site:"SJO"},{login:"agrasha",skill:"AIND",site:"UP"},
+{login:"ajabigai",skill:"AIND",site:"MNL"},{login:"akashoma",skill:"AIND",site:"HYD"},{login:"akushrm",skill:"ESLIS",site:"HYD"},{login:"alainpaa",skill:"ESLIS",site:"MNL"},{login:"alexidiz",skill:"AIND",site:"MNL"},
+{login:"allevill",skill:"FUII",site:"MNL"},{login:"almsocor",skill:"FBA",site:"MNL"},{login:"altafmub",skill:"FUII",site:"HYD"},{login:"alvinlua",skill:"AIND",site:"MNL"},{login:"alvjeffn",skill:"Brand",site:"SJO"},
+{login:"alyfaith",skill:"FUII",site:"MNL"},{login:"amirenep",skill:"AIND",site:"MNL"},{login:"amirlont",skill:"AIND",site:"MNL"},{login:"anagoi",skill:"ESLIS",site:"MNL"},{login:"andymil",skill:"ESLIS",site:"SJO"},
+{login:"angellov",skill:"FUII",site:"SJO"},{login:"angienji",skill:"FUII",site:"SJO"},{login:"anjuanji",skill:"FBA",site:"AP"},{login:"aparnavo",skill:"FUII",site:"HYD"},{login:"apriljay",skill:"AIND",site:"MNL"},
+{login:"aravinsk",skill:"AIND",site:"MAA"},{login:"aravintu",skill:"Brand",site:"MAA"},{login:"arguehai",skill:"Brand",site:"SJO"},{login:"arjanica",skill:"AIND",site:"MNL"},{login:"armarseb",skill:"Brand",site:"MNL"},
+{login:"aroakans",skill:"LATAM",site:"UP"},{login:"arumal",skill:"FUII",site:"MAA"},{login:"arzoomlk",skill:"AIND",site:"UP"},{login:"ascyongc",skill:"FBA",site:"MNL"},{login:"ashrafjr",skill:"FBA",site:"HYD"},
+{login:"ashuxraj",skill:"AIND",site:"UP"},{login:"avoosa",skill:"AIND",site:"HYD"},{login:"aymeecm",skill:"FBA",site:"SJO"},{login:"ayufatim",skill:"AIND",site:"HYD"},{login:"ayuverms",skill:"ESLIS",site:"HYD"},
+{login:"ayuvsriv",skill:"Brand",site:"UP"},{login:"badmria",skill:"ESLIS",site:"SJO"},{login:"bajopava",skill:"FBA",site:"HYD"},{login:"bandramf",skill:"ESLIS",site:"HYD"},{login:"baronjud",skill:"ESLIS",site:"MNL"},
+{login:"bayronp",skill:"ESLIS",site:"SJO"},{login:"bhdiptam",skill:"ESLIS",site:"KOL"},{login:"bhjavaid",skill:"ESLIS",site:"DEL"},{login:"biancaod",skill:"AIND",site:"MNL"},{login:"bkirankr",skill:"FBA",site:"HYD"},
+{login:"bmarkjoh",skill:"FBA",site:"MNL"},{login:"bmayethg",skill:"FBA",site:"MNL"},{login:"bragkare",skill:"Brand",site:"MNL"},{login:"brenesoh",skill:"Brand",site:"SJO"},{login:"briolale",skill:"ESLIS",site:"MNL"},
+{login:"brylui",skill:"AIND",site:"MNL"},{login:"bsvardha",skill:"FBA",site:"HYD"},{login:"btadiann",skill:"FUII",site:"MNL"},{login:"byvenus",skill:"AIND",site:"MNL"},{login:"calendas",skill:"FBA",site:"MNL"},
+{login:"camilagq",skill:"FUII",site:"SJO"},{login:"candyjaz",skill:"FBA",site:"SJO"},{login:"carilomc",skill:"ESLIS",site:"MNL"},{login:"carlomsc",skill:"AIND",site:"MNL"},{login:"caromenx",skill:"FUII",site:"SJO"},
+{login:"cbpchua",skill:"FBA",site:"MNL"},{login:"cchita",skill:"Brand",site:"HYD"},{login:"chahhell",skill:"FUII",site:"SJO"},{login:"chakkun",skill:"ESLIS",site:"KOL"},{login:"chilamsh",skill:"AIND",site:"HYD"},
+{login:"chjimena",skill:"FUII",site:"SJO"},{login:"cielojde",skill:"AIND",site:"MNL"},{login:"clariesp",skill:"AIND",site:"MNL"},{login:"clemrie",skill:"AIND",site:"MNL"},{login:"crjadav",skill:"LATAM",site:"HYD"},
+{login:"crssai",skill:"AIND",site:"HYD"},{login:"dalmiadi",skill:"AIND",site:"KOL"},{login:"danvique",skill:"Brand",site:"SJO"},{login:"datilesm",skill:"AIND",site:"MNL"},{login:"deanmarb",skill:"FBA",site:"SJO"},
+{login:"deeptdk",skill:"AIND",site:"MAA"},{login:"devansgh",skill:"ESLIS",site:"KOL"},{login:"devsivap",skill:"AIND",site:"AP"},{login:"diaverac",skill:"ESLIS",site:"MNL"},{login:"diegozun",skill:"FBA",site:"SJO"},
+{login:"dmarites",skill:"FUII",site:"MNL"},{login:"dmohapat",skill:"FBA",site:"HYD"},{login:"dnileo",skill:"ESLIS",site:"SJO"},{login:"donnatan",skill:"FBA",site:"MNL"},{login:"dramachk",skill:"FBA",site:"AP"},
+{login:"duramapa",skill:"AIND",site:"MNL"},{login:"eacbauti",skill:"LATAM",site:"MNL"},{login:"ejlapidt",skill:"FBA",site:"MNL"},{login:"ekarthis",skill:"AIND",site:"MAA"},{login:"emiliadh",skill:"FBA",site:"SJO"},
+{login:"eremcast",skill:"ESLIS",site:"MNL"},{login:"errakhi",skill:"FUII",site:"HYD"},{login:"ervpresa",skill:"AIND",site:"MNL"},{login:"erwivilb",skill:"AIND",site:"MNL"},{login:"eshrespa",skill:"ESLIS",site:"KOL"},
+{login:"espirjes",skill:"AIND",site:"MNL"},{login:"esyeahme",skill:"Advisor",site:"MAA"},{login:"faizaric",skill:"AIND",site:"DEL"},{login:"faizawes",skill:"LATAM",site:"HYD"},{login:"fannyesm",skill:"FUII",site:"SJO"},
+{login:"farheesa",skill:"ESLIS",site:"HYD"},{login:"fasihmoh",skill:"AIND",site:"HYD"},{login:"fatafrez",skill:"Brand",site:"HYD"},{login:"fathibil",skill:"Brand",site:"HYD"},{login:"favishar",skill:"ESLIS",site:"KOL"},
+{login:"felipeep",skill:"LATAM",site:"SJO"},{login:"firsyeda",skill:"FUII",site:"MHA"},{login:"fmariari",skill:"Brand",site:"MNL"},{login:"fmvc",skill:"FBA",site:"MNL"},{login:"fraavila",skill:"FUII",site:"SJO"},
+{login:"franjeas",skill:"FUII",site:"SJO"},{login:"gabtosi",skill:"ESLIS",site:"SJO"},{login:"gabyach",skill:"LATAM",site:"SJO"},{login:"galonsav",skill:"FBA",site:"MNL"},{login:"garaalyx",skill:"LATAM",site:"MNL"},
+{login:"gawich",skill:"LATAM",site:"SJO"},{login:"gemmibq",skill:"FUII",site:"MNL"},{login:"gensayac",skill:"ESLIS",site:"MNL"},{login:"ggener",skill:"AIND",site:"SJO"},{login:"ghousiaa",skill:"FBA",site:"HYD"},
+{login:"gjallo",skill:"AIND",site:"MNL"},{login:"gjochatt",skill:"FUII",site:"KOL"},{login:"gjteleb",skill:"AIND",site:"MNL"},{login:"gkumaabh",skill:"AIND",site:"DEL"},{login:"gnandiga",skill:"AIND",site:"HYD"},
+{login:"gonzatta",skill:"ESLIS",site:"SJO"},{login:"gordolav",skill:"FBA",site:"MNL"},{login:"gossahit",skill:"Brand",site:"HYD"},{login:"gpravenk",skill:"FUII",site:"AP"},{login:"gravpame",skill:"Brand",site:"MNL"},
+{login:"gugusrij",skill:"AIND",site:"HYD"},{login:"gummapum",skill:"AIND",site:"MAA"},{login:"hafsaft",skill:"Brand",site:"HYD"},{login:"hanagnzl",skill:"FBA",site:"MNL"},{login:"haritmaw",skill:"FUII",site:"AP"},
+{login:"hasanudg",skill:"FUII",site:"HYD"},{login:"haszamzh",skill:"AIND",site:"KOL"},{login:"hillaval",skill:"FUII",site:"SJO"},{login:"hmvinayk",skill:"ESLIS",site:"HYD"},{login:"hosenapa",skill:"FUII",site:"MNL"},
+{login:"hsagasar",skill:"AIND",site:"KOL"},{login:"hvrahman",skill:"AIND",site:"MAA"},{login:"iashwiku",skill:"AIND",site:"MAA"},{login:"imylec",skill:"AIND",site:"MNL"},{login:"infanjas",skill:"AIND",site:"MAA"},
+{login:"inikhild",skill:"FUII",site:"HYD"},{login:"ipsitagr",skill:"AIND",site:"KOL"},{login:"iraaamir",skill:"ESLIS",site:"DEL"},{login:"iremonto",skill:"Brand",site:"SJO"},{login:"ireneply",skill:"AIND",site:"MNL"},
+{login:"ishwmony",skill:"AIND",site:"MAA"},{login:"ivaibhto",skill:"AIND",site:"UP"},{login:"jamesjej",skill:"FBA",site:"HYD"},{login:"janpabc",skill:"AIND",site:"MNL"},{login:"jaybcale",skill:"ESLIS",site:"MNL"},
+{login:"jbnz",skill:"AIND",site:"MNL"},{login:"jeamogis",skill:"AIND",site:"MNL"},{login:"jefalban",skill:"AIND",site:"MNL"},{login:"jeferram",skill:"FUII",site:"SJO"},{login:"jeffronq",skill:"Brand",site:"MNL"},
+{login:"jenbesc",skill:"AIND",site:"MNL"},{login:"jerillon",skill:"FUII",site:"MNL"},{login:"jilliesc",skill:"Brand",site:"MNL"},{login:"jkezi",skill:"FBA",site:"MAA"},{login:"jleojae",skill:"FBA",site:"MNL"},
+{login:"jmgabbey",skill:"AIND",site:"MNL"},{login:"jmrps",skill:"FBA",site:"MNL"},{login:"joabrca",skill:"AIND",site:"SJO"},{login:"jocanu",skill:"LATAM",site:"SJO"},{login:"jocastul",skill:"Brand",site:"MNL"},
+{login:"jodinqui",skill:"FUII",site:"MNL"},{login:"joeyjakk",skill:"AIND",site:"HYD"},{login:"jofelixx",skill:"FBA",site:"MAA"},{login:"joheshar",skill:"Brand",site:"SJO"},{login:"johnuno",skill:"AIND",site:"MNL"},
+{login:"jonasisv",skill:"LATAM",site:"MNL"},{login:"jonasrcc",skill:"LATAM",site:"SJO"},{login:"jongadvi",skill:"AIND",site:"MNL"},{login:"jonrello",skill:"FBA",site:"MNL"},{login:"joshrohe",skill:"ESLIS",site:"HYD"},
+{login:"joydvid",skill:"ESLIS",site:"MNL"},{login:"jpba",skill:"Brand",site:"MNL"},{login:"jranarr",skill:"FBA",site:"MNL"},{login:"jregor",skill:"ESLIS",site:"SJO"},{login:"juanureg",skill:"FUII",site:"SJO"},
+{login:"judypoli",skill:"AIND",site:"MNL"},{login:"juvilyng",skill:"AIND",site:"MNL"},{login:"jvmnz",skill:"AIND",site:"MNL"},{login:"jvshek",skill:"FBA",site:"MAA"},{login:"jyopuram",skill:"Brand",site:"HYD"},
+{login:"kakhiu",skill:"AIND",site:"MAA"},{login:"kalilulm",skill:"AIND",site:"HYD"},{login:"kamicolb",skill:"FBA",site:"MNL"},{login:"kanchyou",skill:"FBA",site:"HYD"},{login:"kanithsr",skill:"FBA",site:"HYD"},
+{login:"kapolina",skill:"ESLIS",site:"MNL"},{login:"karmaeca",skill:"AIND",site:"MNL"},{login:"karsowmy",skill:"FBA",site:"HYD"},{login:"kbriabai",skill:"Brand",site:"MNL"},{login:"kbrokris",skill:"FUII",site:"SJO"},
+{login:"keepra",skill:"AIND",site:"MAA"},{login:"kendalac",skill:"ESLIS",site:"SJO"},{login:"kennnram",skill:"Brand",site:"MNL"},{login:"kennroja",skill:"LATAM",site:"SJO"},{login:"kevalior",skill:"AIND",site:"SJO"},
+{login:"kimxx",skill:"FBA",site:"MNL"},{login:"kjdivya",skill:"FUII",site:"HYD"},{login:"kjoymaju",skill:"AIND",site:"KOL"},{login:"kmeianti",skill:"FUII",site:"MNL"},{login:"koleyqpr",skill:"AIND",site:"HYD"},
+{login:"konasai",skill:"FBA",site:"AP"},{login:"kovelap",skill:"AIND",site:"HYD"},{login:"krishzvi",skill:"AIND",site:"MAA"},{login:"krismoho",skill:"FUII",site:"MAA"},{login:"ksanksha",skill:"AIND",site:"HYD"},
+{login:"kswethas",skill:"FBA",site:"MAA"},{login:"kthiram",skill:"Advisor",site:"MAA"},{login:"ktomes",skill:"FBA",site:"MNL"},{login:"kumavais",skill:"LATAM",site:"MAA"},{login:"kumphane",skill:"LATAM",site:"AP"},
+{login:"kumudisa",skill:"AIND",site:"AP"},{login:"kurasaii",skill:"FBA",site:"HYD"},{login:"ladsiva",skill:"ESLIS",site:"HYD"},{login:"laknat",skill:"AIND",site:"MAA"},{login:"lanksaib",skill:"FUII",site:"AP"},
+{login:"lcorrl",skill:"ESLIS",site:"SJO"},{login:"lealmicm",skill:"Advisor",site:"MNL"},{login:"leldrige",skill:"Brand",site:"MNL"},{login:"lemnath",skill:"FBA",site:"MNL"},{login:"lemonyam",skill:"ESLIS",site:"SJO"},
+{login:"lomurudi",skill:"ESLIS",site:"BLR"},{login:"louiecha",skill:"AIND",site:"MNL"},{login:"lovyjenn",skill:"FUII",site:"MNL"},{login:"lubnaush",skill:"Brand",site:"MAA"},{login:"lucenajd",skill:"Brand",site:"MNL"},
+{login:"maarijit",skill:"FUII",site:"KOL"},{login:"mangaom",skill:"Brand",site:"MNL"},{login:"manovya",skill:"ESLIS",site:"HYD"},{login:"mareddye",skill:"FBA",site:"HYD"},{login:"mariaoba",skill:"FUII",site:"SJO"},
+{login:"mariejca",skill:"ESLIS",site:"MNL"},{login:"marjorfj",skill:"FBA",site:"MNL"},{login:"marrsuji",skill:"FBA",site:"MAA"},{login:"maryjoto",skill:"ESLIS",site:"MNL"},{login:"masabyas",skill:"ESLIS",site:"KOL"},
+{login:"mcapalad",skill:"AIND",site:"MNL"},{login:"mclarito",skill:"FBA",site:"MNL"},{login:"mduraamz",skill:"ESLIS",site:"SJO"},{login:"meghakhe",skill:"AIND",site:"UP"},{login:"mehtasko",skill:"Brand",site:"UP"},
+{login:"meilyc",skill:"FBA",site:"SJO"},{login:"mingijm",skill:"FBA",site:"MNL"},{login:"miriiae",skill:"AIND",site:"SJO"},{login:"mjasem",skill:"FUII",site:"MNL"},{login:"mkeshav",skill:"ESLIS",site:"HYD"},
+{login:"mksravs",skill:"FBA",site:"HYD"},{login:"mmjdlm",skill:"FBA",site:"MNL"},{login:"mmolleno",skill:"AIND",site:"MNL"},{login:"mnagavee",skill:"FBA",site:"AP"},{login:"mohdmnsr",skill:"ESLIS",site:"HYD"},
+{login:"monestav",skill:"AIND",site:"SJO"},{login:"moraanaj",skill:"Brand",site:"SJO"},{login:"morabagl",skill:"Brand",site:"SJO"},{login:"morzcr",skill:"FUII",site:"SJO"},{login:"mpabuaya",skill:"FBA",site:"MNL"},
+{login:"mrcarie",skill:"LATAM",site:"MNL"},{login:"mriemej",skill:"Brand",site:"SJO"},{login:"mshmonic",skill:"Brand",site:"MHA"},{login:"mufatimj",skill:"FBA",site:"HYD"},{login:"muksaya",skill:"FUII",site:"KOL"},
+{login:"nandreh",skill:"FBA",site:"SJO"},{login:"nasakan",skill:"FBA",site:"HYD"},{login:"nemeghan",skill:"FBA",site:"HYD"},{login:"nicss",skill:"Brand",site:"MNL"},{login:"nicxf",skill:"Brand",site:"MNL"},
+{login:"nimprave",skill:"Brand",site:"HYD"},{login:"nirlepar",skill:"FUII",site:"HYD"},{login:"njosely",skill:"FBA",site:"SJO"},{login:"nrajun",skill:"AIND",site:"HYD"},{login:"nryanher",skill:"ESLIS",site:"SJO"},
+{login:"ojedalmi",skill:"Brand",site:"MNL"},{login:"orilljoh",skill:"AIND",site:"MNL"},{login:"ortcriso",skill:"Brand",site:"MNL"},{login:"osanthov",skill:"Brand",site:"MAA"},{login:"ovvehema",skill:"FBA",site:"AP"},
+{login:"palmesro",skill:"FUII",site:"MNL"},{login:"pandijin",skill:"FUII",site:"MHA"},{login:"pandleni",skill:"Brand",site:"MAA"},{login:"pcsarasw",skill:"FBA",site:"AP"},{login:"perenaze",skill:"AIND",site:"MNL"},
+{login:"pernacha",skill:"AIND",site:"MAA"},{login:"pfnazeer",skill:"FBA",site:"HYD"},{login:"phaniich",skill:"AIND",site:"HYD"},{login:"piedjess",skill:"FUII",site:"SJO"},{login:"pnmv",skill:"FUII",site:"MNL"},
+{login:"poornacp",skill:"AIND",site:"MAA"},{login:"pradevaa",skill:"Brand",site:"DEL"},{login:"pranola",skill:"AIND",site:"MNL"},{login:"praviriy",skill:"FBA",site:"HYD"},{login:"priyga",skill:"FBA",site:"DEL"},
+{login:"qariesoc",skill:"FUII",site:"MNL"},{login:"qmannaka",skill:"Brand",site:"KOL"},{login:"qmohshai",skill:"FUII",site:"AP"},{login:"qmotwaro",skill:"FUII",site:"MHA"},{login:"raajakur",skill:"Brand",site:"UP"},
+{login:"rachyyy",skill:"FBA",site:"HYD"},{login:"racxjime",skill:"FBA",site:"SJO"},{login:"ralphboo",skill:"AIND",site:"MNL"},{login:"ramacdin",skill:"AIND",site:"MAA"},{login:"ramosjrg",skill:"AIND",site:"MNL"},
+{login:"ramosrva",skill:"AIND",site:"SJO"},{login:"ranadib",skill:"FUII",site:"KOL"},{login:"rattiraj",skill:"ESLIS",site:"HYD"},{login:"rauthtwi",skill:"LATAM",site:"KOL"},{login:"rcaranez",skill:"AIND",site:"MNL"},
+{login:"rebcst",skill:"ESLIS",site:"SJO"},{login:"regregin",skill:"FUII",site:"MNL"},{login:"remervhi",skill:"FUII",site:"MNL"},{login:"renzmarf",skill:"AIND",site:"MNL"},{login:"rezfranc",skill:"AIND",site:"MNL"},
+{login:"rheashar",skill:"AIND",site:"UP"},{login:"ricadric",skill:"AIND",site:"MNL"},{login:"ricartek",skill:"AIND",site:"MNL"},{login:"richvare",skill:"ESLIS",site:"SJO"},{login:"rishiyt",skill:"Brand",site:"HYD"},
+{login:"ritiksa",skill:"AIND",site:"KOL"},{login:"rivoadri",skill:"ESLIS",site:"SJO"},{login:"rjosjime",skill:"FBA",site:"SJO"},{login:"rmajito",skill:"FBA",site:"MNL"},{login:"rnazahma",skill:"LATAM",site:"DEL"},
+{login:"robletoy",skill:"FBA",site:"SJO"},{login:"robondoc",skill:"Brand",site:"MNL"},{login:"romejong",skill:"AIND",site:"SJO"},{login:"rosecheg",skill:"LATAM",site:"SJO"},{login:"rosekezi",skill:"AIND",site:"AP"},
+{login:"roulana",skill:"AIND",site:"UP"},{login:"rquesad",skill:"ESLIS",site:"SJO"},{login:"rtariahm",skill:"AIND",site:"HYD"},{login:"rullodac",skill:"ESLIS",site:"MNL"},{login:"ruthwikt",skill:"AIND",site:"HYD"},
+{login:"sabalald",skill:"ESLIS",site:"MNL"},{login:"sadesaga",skill:"AIND",site:"HYD"},{login:"saibtej",skill:"AIND",site:"HYD"},{login:"saiohri",skill:"AIND",site:"UP"},{login:"salvadaa",skill:"ESLIS",site:"MNL"},
+{login:"samadasg",skill:"ESLIS",site:"HYD"},{login:"samadda",skill:"FUII",site:"KOL"},{login:"samgopi",skill:"ESLIS",site:"HYD"},{login:"sananjai",skill:"Brand",site:"MNL"},{login:"sandiedu",skill:"FUII",site:"SJO"},
+{login:"santhubs",skill:"ESLIS",site:"HYD"},{login:"sarahida",skill:"ESLIS",site:"SJO"},{login:"sarfamed",skill:"FBA",site:"MAA"},{login:"sartapsa",skill:"FUII",site:"MHA"},{login:"sathdins",skill:"AIND",site:"MAA"},
+{login:"sayanoos",skill:"AIND",site:"MAA"},{login:"sbhuvany",skill:"AIND",site:"MAA"},{login:"sdakbar",skill:"ESLIS",site:"HYD"},{login:"secolina",skill:"AIND",site:"MNL"},{login:"sempooja",skill:"Brand",site:"HYD"},
+{login:"seshag",skill:"AIND",site:"HYD"},{login:"sesjimen",skill:"AIND",site:"SJO"},{login:"shahfarc",skill:"FBA",site:"HYD"},{login:"shajamun",skill:"AIND",site:"MAA"},{login:"shanarot",skill:"AIND",site:"UP"},
+{login:"sharatct",skill:"FBA",site:"HYD"},{login:"sharlinr",skill:"FUII",site:"SJO"},{login:"shehmohd",skill:"Advisor",site:"HYD"},{login:"sherydia",skill:"FUII",site:"MNL"},{login:"sherynhr",skill:"FBA",site:"MNL"},
+{login:"shielnun",skill:"Brand",site:"MNL"},{login:"shikulge",skill:"FBA",site:"BLR"},{login:"shivitis",skill:"AIND",site:"UP"},{login:"singhbbp",skill:"Advisor",site:"UP"},{login:"sinhpeol",skill:"FUII",site:"MHA"},
+{login:"sirimara",skill:"LATAM",site:"AP"},{login:"siswathi",skill:"AIND",site:"HYD"},{login:"sjimsal",skill:"ESLIS",site:"SJO"},{login:"songswam",skill:"ESLIS",site:"HYD"},{login:"sonnycl",skill:"FBA",site:"SJO"},
+{login:"soumyasi",skill:"ESLIS",site:"KOL"},{login:"spathane",skill:"AIND",site:"UP"},{login:"srsankat",skill:"FUII",site:"HYD"},{login:"starform",skill:"Brand",site:"MNL"},{login:"stevenoy",skill:"AIND",site:"SJO"},
+{login:"stravich",skill:"AIND",site:"MAA"},{login:"subhojb",skill:"ESLIS",site:"KOL"},{login:"sunilrp",skill:"FUII",site:"HYD"},{login:"sunjseik",skill:"AIND",site:"KOL"},{login:"surisvar",skill:"Brand",site:"AP"},
+{login:"suromoha",skill:"FBA",site:"AP"},{login:"sxvikram",skill:"Brand",site:"MAA"},{login:"sybea",skill:"AIND",site:"MNL"},{login:"syemahab",skill:"FBA",site:"HYD"},{login:"syerajmo",skill:"ESLIS",site:"HYD"},
+{login:"tamaaa",skill:"FUII",site:"SJO"},{login:"tanissi",skill:"Brand",site:"UP"},{login:"tanmdutp",skill:"ESLIS",site:"KOL"},{login:"thoucruz",skill:"FUII",site:"MNL"},{login:"tlfatima",skill:"Brand",site:"HYD"},
+{login:"toiirvin",skill:"Brand",site:"MNL"},{login:"trabhask",skill:"FBA",site:"MAA"},{login:"tripathf",skill:"AIND",site:"HYD"},{login:"turlnaga",skill:"FBA",site:"AP"},{login:"udbhavth",skill:"ESLIS",site:"HYD"},
+{login:"ukishosa",skill:"Brand",site:"MHA"},{login:"uromerma",skill:"ESLIS",site:"MNL"},{login:"usomacaa",skill:"AIND",site:"MNL"},{login:"vakammou",skill:"ESLIS",site:"HYD"},{login:"valverfe",skill:"ESLIS",site:"SJO"},
+{login:"vathsss",skill:"FBA",site:"HYD"},{login:"vfernanc",skill:"AIND",site:"MNL"},{login:"vhdevend",skill:"FUII",site:"MAA"},{login:"vivekre",skill:"Brand",site:"HYD"},{login:"vmotayya",skill:"FUII",site:"HYD"},
+{login:"vpoojaub",skill:"LATAM",site:"HYD"},{login:"wasimai",skill:"ESLIS",site:"HYD"},{login:"wkeerthi",skill:"ESLIS",site:"HYD"},{login:"wniyamam",skill:"FUII",site:"HYD"},{login:"xessane",skill:"LATAM",site:"UP"},
+{login:"xsakthiv",skill:"Advisor",site:"MAA"},{login:"yebryanh",skill:"Brand",site:"SJO"},{login:"yengvill",skill:"AIND",site:"MNL"},{login:"yenugapr",skill:"FUII",site:"AP"},{login:"ymancech",skill:"LATAM",site:"MNL"},
+{login:"yshabahm",skill:"AIND",site:"MAA"},{login:"zaidihin",skill:"Advisor",site:"HYD"},{login:"zamasif",skill:"AIND",site:"HYD"},{login:"zarpandi",skill:"FUII",site:"MAA"},{login:"zbmir",skill:"Brand",site:"PB"},
+{login:"ziegen",skill:"FBA",site:"HYD"},{login:"zlohac",skill:"AIND",site:"MNL"},{login:"zsharan",skill:"AIND",site:"MAA"},
+// M@ associates
+{login:"aasifbha",skill:"M@ FUII",site:"HYD"},{login:"acevegab",skill:"M@ FUII",site:"SJO"},{login:"achavesa",skill:"M@ FUII",site:"SJO"},{login:"affarhe",skill:"M@ FUII VCM",site:"MHA"},{login:"agilaja",skill:"M@ FUII",site:"MNL"},
+{login:"agvaishn",skill:"M@ FBA",site:"MHA"},{login:"allendeq",skill:"M@ FUII",site:"SJO"},{login:"anaroblf",skill:"M@ FUII",site:"MNL"},{login:"antqmadr",skill:"M@ FUII",site:"MNL"},{login:"anubhhar",skill:"M@ FUII",site:"KOL"},
+{login:"anurxmuk",skill:"M@ FBA",site:"KOL"},{login:"banengin",skill:"M@ FUII",site:"MNL"},{login:"bhaktl",skill:"M@ FBA",site:"MHA"},{login:"bodigs",skill:"M@ FBA",site:"HYD"},{login:"byaritro",skill:"M@ FBA",site:"SJO"},
+{login:"calddaar",skill:"M@ FBA",site:"MNL"},{login:"carhida",skill:"M@ FBA",site:"SJO"},{login:"cespel",skill:"M@ FBA",site:"SJO"},{login:"cojohnhe",skill:"M@ FUII",site:"MNL"},{login:"colleara",skill:"M@ FBA",site:"SJO"},
+{login:"crikenns",skill:"M@ FUII",site:"MNL"},{login:"daconejo",skill:"M@ FBA FUII VCM",site:"SJO"},{login:"dansrr",skill:"M@ FBA",site:"SJO"},{login:"delarmal",skill:"M@ FUII",site:"MNL"},{login:"domiarri",skill:"M@ FUII",site:"MNL"},
+{login:"droni",skill:"Advisor A",site:"KOL"},{login:"dudeguzm",skill:"M@ FUII",site:"MNL"},{login:"frcst",skill:"M@ FBA",site:"SJO"},{login:"gatchait",skill:"M@ FBA",site:"HYD"},{login:"geuanjel",skill:"M@ FUII",site:"MNL"},
+{login:"hillanro",skill:"M@ FBA",site:"SJO"},{login:"imongemu",skill:"M@ FBA",site:"SJO"},{login:"jeshuac",skill:"M@ FBA",site:"SJO"},{login:"jeudm",skill:"M@ FBA",site:"SJO"},{login:"kndia",skill:"Advisor A",site:"HYD"},
+{login:"learatan",skill:"M@ FUII",site:"MNL"},{login:"lmaheaer",skill:"M@ FBA",site:"HYD"},{login:"maryband",skill:"M@ FUII VCM",site:"HYD"},{login:"masantim",skill:"M@ FUII",site:"MNL"},{login:"mdsohael",skill:"M@ FUII VCM",site:"HYD"},
+{login:"mirjozuh",skill:"M@ FUII",site:"SJO"},{login:"natulsha",skill:"M@ FBA",site:"MHA"},{login:"navakath",skill:"M@ FBA",site:"SJO"},{login:"neilpabs",skill:"M@ FUII",site:"HYD"},{login:"paolajat",skill:"M@ FUII",site:"MNL"},
+{login:"paolorma",skill:"M@ FUII",site:"MNL"},{login:"perezfaa",skill:"M@ FUII VCM",site:"SJO"},{login:"philomit",skill:"M@ FBA",site:"HYD"},{login:"porramel",skill:"M@ FBA",site:"SJO"},{login:"qdeocamp",skill:"M@ FUII",site:"MNL"},
+{login:"rabiaban",skill:"M@ FUII VCM",site:"HYD"},{login:"rahuberp",skill:"M@ FBA",site:"KOL"},{login:"rikrmuha",skill:"M@ FBA",site:"HYD"},{login:"rjasaju",skill:"M@ FBA",site:"SJO"},{login:"rkorimel",skill:"M@ FUII",site:"HYD"},
+{login:"rubimate",skill:"M@ FUII VCM",site:"SJO"},{login:"sbbhopse",skill:"M@ FUII",site:"MHA"},{login:"sequed",skill:"M@ FUII VCM",site:"SJO"},{login:"sijohnch",skill:"M@ FUII",site:"MNL"},{login:"socheste",skill:"M@ FUII",site:"MNL"},
+{login:"sudipab",skill:"M@ FUII",site:"KOL"},{login:"sulagnc",skill:"M@ FBA",site:"KOL"},{login:"suravara",skill:"M@ FUII",site:"HYD"},{login:"tannluvk",skill:"M@ FBA",site:"HYD"},{login:"tedwinra",skill:"M@ FUII",site:"MNL"},
+{login:"urspavan",skill:"M@ FBA",site:"HYD"},{login:"valpalma",skill:"M@ FBA",site:"SJO"},{login:"valsancy",skill:"M@ FBA",site:"SJO"},{login:"vkattia",skill:"M@ FUII",site:"SJO"},{login:"vmarilca",skill:"M@ FUII",site:"SJO"},
+{login:"xcalixtf",skill:"M@ FBA",site:"MNL"},{login:"zdeallys",skill:"M@ FUII",site:"MNL"},{login:"zslauren",skill:"M@ FBA",site:"MNL"},{login:"amzamali",skill:"M@ FUII VCM",site:"HYD"}
+];
+const HC_ROSTER_LOGINS = new Set(HC_ROSTER_WK27.map(r => r.login));
+const HC_ROSTER_MAP = {};
+HC_ROSTER_WK27.forEach(r => { HC_ROSTER_MAP[r.login] = r; });
+
 const MASTER_RG_LIST=[
 {skill:"AIND",rg:"T4 Seller Catalog Services-IN"},{skill:"AIND",rg:"T4 Referral-fee"},{skill:"AIND",rg:"T4 EG Order Management"},{skill:"AIND",rg:"T4 KSA Order Management"},{skill:"AIND",rg:"T4 MENA Order Management"},{skill:"AIND",rg:"T4 India Andon Internal"},{skill:"AIND",rg:"T4 ML Audit group"},{skill:"AIND",rg:"T4 TRY FBA 2020"},{skill:"AIND",rg:"T4 Credit Ops Project IN"},{skill:"AIND",rg:"T4 Order Management Tier2"},{skill:"AIND",rg:"T4 Referral-fee Tier2"},{skill:"AIND",rg:"T4 AESP Tier2"},
 {skill:"BRAND",rg:"T4 BRBV"},{skill:"BRAND",rg:"T4 EIM escalations"},{skill:"BRAND",rg:"T4 ASIN throttle appeals"},{skill:"BRAND",rg:"T4 Generics Appeals"},
@@ -95,7 +240,6 @@ const MASTER_RG_LIST=[
 const MASTER_RG_NAMES=MASTER_RG_LIST.map(r=>r.rg);
 const MASTER_RG_SET=new Set(MASTER_RG_NAMES);
 
-// Full RG list from 2026 (used for Reassign and Reopen)
 const ALL_RG_LIST=[
 {skill:"New Freeway",rg:"Seller Support T4 VCM"},{skill:"ABP All",rg:"T4 Brand Name Authorization"},{skill:"ABP All",rg:"SPS-T4-Catalog-Lockdown"},{skill:"ABP All",rg:"T4 BrandProtection"},
 {skill:"FBA",rg:"T4 SandOp FOS"},{skill:"New Freeway",rg:"Seller Support T4 FBA"},{skill:"FUII",rg:"T4 ESR - LR"},{skill:"Brand",rg:"T4 INTL TM Verification Team"},
@@ -178,6 +322,7 @@ if(colEIdx===-1){const used=new Set([loginIdx,rgIdx,ticketIdx,colFIdx]);if(heade
 if(colFIdx===-1){const used=new Set([loginIdx,rgIdx,ticketIdx,colEIdx]);if(headers.length>5&&!used.has(5))colFIdx=5;else{for(let i=0;i<headers.length;i++){if(!used.has(i)&&i>3&&i!==colEIdx){colFIdx=i;break}}}}
 return{loginIdx,rgIdx,ticketIdx,colEIdx,colFIdx};
 }
+
 function parseCSV(text){
 const lines=text.trim().split(/\r?\n/).filter(l=>l.trim());
 if(lines.length<2){showStatus('Need header + data rows.','error');return}
@@ -206,9 +351,38 @@ if(!rawData.length){showStatus('No valid rows found.','error');return}
 showStatus('Loaded '+rawData.length+' tickets, '+new Set(rawData.map(r=>r.login)).size+' logins, '+new Set(rawData.map(r=>r.rg)).size+' RGs','success');
 document.getElementById('configCard').classList.remove('hidden');
 showSummary();
+checkMissingLogins();
 }
 
 function isReopen(v){if(!v)return false;var l=v.trim().toLowerCase();return l==='reopen'}
+
+// ===== CHECK MISSING LOGINS FROM HC ROSTER =====
+function checkMissingLogins(){
+const dataLogins = new Set(rawData.map(r => r.login));
+const missingLogins = HC_ROSTER_WK27.filter(r => !dataLogins.has(r.login));
+const card = document.getElementById('missingLoginsCard');
+if(missingLogins.length === 0){
+card.classList.add('hidden');
+return;
+}
+card.classList.remove('hidden');
+// Stats by skill
+const bySkill = {};
+missingLogins.forEach(r => { if(!bySkill[r.skill]) bySkill[r.skill]=0; bySkill[r.skill]++; });
+let statsHtml = '<div class="stat-box red"><div class="stat-value">'+missingLogins.length+'</div><div class="stat-label">Total Missing</div></div>';
+statsHtml += '<div class="stat-box green"><div class="stat-value">'+(HC_ROSTER_WK27.length - missingLogins.length)+'/'+HC_ROSTER_WK27.length+'</div><div class="stat-label">Roster Covered</div></div>';
+Object.keys(bySkill).sort().forEach(skill => {
+statsHtml += '<div class="stat-box orange"><div class="stat-value">'+bySkill[skill]+'</div><div class="stat-label">'+skill+'</div></div>';
+});
+document.getElementById('missingLoginsStats').innerHTML = statsHtml;
+// List
+let listHtml = '';
+missingLogins.sort((a,b) => a.skill.localeCompare(b.skill) || a.login.localeCompare(b.login));
+missingLogins.forEach(r => {
+listHtml += '<div class="missing-login-item"><span class="login-name">'+r.login+'</span><span class="login-skill">'+r.skill+' | '+r.site+'</span></div>';
+});
+document.getElementById('missingLoginsList').innerHTML = listHtml;
+}
 
 function showSummary(){
 document.getElementById('summaryCard').classList.remove('hidden');
@@ -216,9 +390,13 @@ const logins=new Set(rawData.map(r=>r.login)),rgs=new Set(rawData.map(r=>r.rg));
 const covered=MASTER_RG_NAMES.filter(rg=>rgs.has(rg)),missing=MASTER_RG_NAMES.filter(rg=>!rgs.has(rg));
 const t4=rawData.filter(r=>r.rg.startsWith('T4')).length,nonT4=rawData.filter(r=>!r.rg.startsWith('T4')).length;
 const reopen=rawData.filter(r=>isReopen(r.colF)).length;
+// HC roster coverage
+const dataLogins = new Set(rawData.map(r=>r.login));
+const rosterCovered = HC_ROSTER_WK27.filter(r=>dataLogins.has(r.login)).length;
 document.getElementById('statsGrid').innerHTML=
 '<div class="stat-box"><div class="stat-value">'+rawData.length+'</div><div class="stat-label">Total Tickets</div></div>'+
 '<div class="stat-box"><div class="stat-value">'+logins.size+'</div><div class="stat-label">Unique Logins</div></div>'+
+'<div class="stat-box '+(rosterCovered===HC_ROSTER_WK27.length?'green':'red')+'"><div class="stat-value">'+rosterCovered+'/'+HC_ROSTER_WK27.length+'</div><div class="stat-label">HC Roster Covered</div></div>'+
 '<div class="stat-box '+(covered.length===MASTER_RG_NAMES.length?'green':'orange')+'"><div class="stat-value">'+covered.length+'/'+MASTER_RG_NAMES.length+'</div><div class="stat-label">Master RGs Covered</div></div>'+
 '<div class="stat-box green"><div class="stat-value">'+t4+'</div><div class="stat-label">T4 (Sensitive pool)</div></div>'+
 '<div class="stat-box orange"><div class="stat-value">'+nonT4+'</div><div class="stat-label">Non-T4 (Reassign pool)</div></div>'+
@@ -237,6 +415,7 @@ function getRGMins(){var o={};MASTER_RG_LIST.forEach(function(item,i){var inp=do
 function getRGReassignMins(){var o={};ALL_RG_LIST.forEach(function(item,i){var inp=document.getElementById('rgReassignMin_'+i);if(inp&&inp.value&&parseInt(inp.value)>0)o[item.rg]=parseInt(inp.value)});return o}
 function getRGReopenMins(){var o={};ALL_RG_LIST.forEach(function(item,i){var inp=document.getElementById('rgReopenMin_'+i);if(inp&&inp.value&&parseInt(inp.value)>0)o[item.rg]=parseInt(inp.value)});return o}
 function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=a[i];a[i]=a[j];a[j]=tmp}return a}
+
 // ===== MAIN GENERATION =====
 function generateSample(){
 var totalMax=parseInt(document.getElementById('totalPerLogin').value)||4;
@@ -309,9 +488,8 @@ var p4=c4[i2];sampleData.push(Object.assign({},p4,{sampleType:'Reassign'}));samp
 }
 }
 
-// PHASE 3: Reopen - fill remaining from reopen-flagged, all RGs (considers ALL RGs from full list)
+// PHASE 3: Reopen - fill remaining from reopen-flagged, all RGs
 var rgReopenMins=getRGReopenMins();
-// First enforce RG min overrides for Reopen
 var reopenRGsWithMin=Object.keys(rgReopenMins);
 for(var omi=0;omi<reopenRGsWithMin.length;omi++){
 var org=reopenRGsWithMin[omi];var omin=rgReopenMins[org];
@@ -343,6 +521,7 @@ if(c6.length>0){var p6=c6[0];sampleData.push(Object.assign({},p6,{sampleType:'Fa
 assignAuditors();
 renderResults(coveredRGs,lc);
 }
+
 function assignAuditors(){
 var cfg=getAuditorConfig();
 var cnt={};cfg.forEach(function(a){cnt[a.auditor]=0});
@@ -358,12 +537,10 @@ var auds=cfg.filter(function(a){return a.skill===skill});
 if(!auds.length){bySkill[skill].forEach(function(r){r.auditor='(none)'});return}
 var totalTickets=bySkill[skill].length;
 var numAuditors=auds.length;
-// Fair distribution: divide equally, remainder goes round-robin
 var base=Math.floor(totalTickets/numAuditors);
 var remainder=totalTickets%numAuditors;
 var targets={};
 auds.forEach(function(a,i){targets[a.auditor]=base+(i<remainder?1:0)});
-// Assign tickets: pick auditor furthest below their target
 bySkill[skill].forEach(function(row){
 var best=null,bestGap=-Infinity;
 auds.forEach(function(a){
@@ -374,14 +551,24 @@ row.auditor=best.auditor;cnt[best.auditor]++;
 });
 });
 }
+
 function renderResults(coveredRGs,lc){
 document.getElementById('resultsCard').classList.remove('hidden');
+var totalMax=parseInt(document.getElementById('totalPerLogin').value)||4;
 var sc=sampleData.filter(function(s){return s.sampleType==='Sensitive'}).length;
 var rc=sampleData.filter(function(s){return s.sampleType==='Reassign'}).length;
 var oc=sampleData.filter(function(s){return s.sampleType==='Reopen'}).length;
 var fc=sampleData.filter(function(s){return s.sampleType==='Fallback'}).length;
 var ul={};sampleData.forEach(function(s){ul[s.login]=true});var ulc=Object.keys(ul).length;
 var covCount=Object.keys(coveredRGs).length;
+
+// Count logins from HC roster with < 4 audits in sample
+var under4Count = 0;
+var under4Logins = [];
+HC_ROSTER_WK27.forEach(function(r){
+var t = lc[r.login] ? (lc[r.login].s+lc[r.login].r+lc[r.login].o+lc[r.login].f) : 0;
+if(t < totalMax){ under4Count++; under4Logins.push({login:r.login, skill:r.skill, site:r.site, total:t}); }
+});
 
 document.getElementById('sampleStats').innerHTML=
 '<div class="stat-box green"><div class="stat-value">'+sampleData.length+'</div><div class="stat-label">Total Sampled</div></div>'+
@@ -390,15 +577,23 @@ document.getElementById('sampleStats').innerHTML=
 '<div class="stat-box orange"><div class="stat-value">'+rc+'</div><div class="stat-label">Reassign</div></div>'+
 '<div class="stat-box purple"><div class="stat-value">'+oc+'</div><div class="stat-label">Reopen</div></div>'+
 '<div class="stat-box '+(fc===0?'green':'red')+'"><div class="stat-value">'+fc+'</div><div class="stat-label">Fallback</div></div>'+
-'<div class="stat-box '+(covCount===MASTER_RG_NAMES.length?'green':'red')+'"><div class="stat-value">'+covCount+'/'+MASTER_RG_NAMES.length+'</div><div class="stat-label">RG Coverage</div></div>';
+'<div class="stat-box '+(covCount===MASTER_RG_NAMES.length?'green':'red')+'"><div class="stat-value">'+covCount+'/'+MASTER_RG_NAMES.length+'</div><div class="stat-label">RG Coverage</div></div>'+
+'<div class="stat-box '+(under4Count===0?'green':'red')+'"><div class="stat-value">'+under4Count+'</div><div class="stat-label">HC Roster &lt;4 Audits</div></div>';
 
-// Sample table
-var h='<table><thead><tr><th>#</th><th>Login</th><th>Resolver Group</th><th>Ticket ID</th><th>Type</th><th>Skill</th><th>Auditor</th></tr></thead><tbody>';
+// Update Under 4 tab button with count
+document.getElementById('under4Tab').innerHTML = (under4Count>0?'&#9888; ':'')+'Under 4 Audits ('+under4Count+')';
+
+// Sample table - highlight logins with < 4 from HC roster
+var h='<table><thead><tr><th>#</th><th>Login</th><th>Resolver Group</th><th>Ticket ID</th><th>Type</th><th>Skill</th><th>Auditor</th><th>HC Roster</th></tr></thead><tbody>';
 sampleData.forEach(function(row,i){
 var m=MASTER_RG_LIST.find(function(r){return r.rg===row.rg})||ALL_RG_LIST.find(function(r){return r.rg===row.rg});
 var skill=m?m.skill:'-';
 var cls='tag-'+row.sampleType.toLowerCase();
-h+='<tr><td>'+(i+1)+'</td><td>'+row.login+'</td><td>'+row.rg+'</td><td>'+row.ticketId+'</td><td><span class="tag '+cls+'">'+row.sampleType+'</span></td><td>'+skill+'</td><td>'+(row.auditor||'-')+'</td></tr>';
+var isRoster = HC_ROSTER_LOGINS.has(row.login);
+var loginTotal = lc[row.login] ? (lc[row.login].s+lc[row.login].r+lc[row.login].o+lc[row.login].f) : 0;
+var rowCls = (isRoster && loginTotal < totalMax) ? ' class="under4-highlight"' : '';
+var rosterBadge = isRoster ? '<span class="badge badge-green">Yes</span>' : '<span class="badge badge-orange">Extra</span>';
+h+='<tr'+rowCls+'><td>'+(i+1)+'</td><td>'+row.login+'</td><td>'+row.rg+'</td><td>'+row.ticketId+'</td><td><span class="tag '+cls+'">'+row.sampleType+'</span></td><td>'+skill+'</td><td>'+(row.auditor||'-')+'</td><td>'+rosterBadge+'</td></tr>';
 });
 h+='</tbody></table>';
 document.getElementById('sampleTable').innerHTML=h;
@@ -412,14 +607,17 @@ cv+='<div class="coverage-item '+(ok?'covered':'not-covered')+'"><span>'+item.sk
 });
 cv+='</div>';
 document.getElementById('coverageContent').innerHTML=cv;
-// Login dist
-var totalMax=parseInt(document.getElementById('totalPerLogin').value)||4;
-var ld='<table><thead><tr><th>Login</th><th>Sensitive</th><th>Reassign</th><th>Reopen</th><th>Fallback</th><th>Total</th><th>Status</th></tr></thead><tbody>';
+
+// Login dist - show HC roster status
+var ld='<table><thead><tr><th>Login</th><th>Sensitive</th><th>Reassign</th><th>Reopen</th><th>Fallback</th><th>Total</th><th>Status</th><th>HC Roster</th></tr></thead><tbody>';
 var entries=[];Object.keys(lc).forEach(function(k){var c=lc[k];var t=c.s+c.r+c.o+c.f;if(t>0)entries.push({login:k,c:c,t:t})});
-entries.sort(function(a,b){return b.t-a.t});
+entries.sort(function(a,b){return a.t-b.t});
 entries.forEach(function(e){
-var st=e.t<=totalMax?'<span class="badge badge-green">OK</span>':'<span class="badge badge-red">Over</span>';
-ld+='<tr><td>'+e.login+'</td><td>'+e.c.s+'</td><td>'+e.c.r+'</td><td>'+e.c.o+'</td><td>'+e.c.f+'</td><td>'+e.t+'</td><td>'+st+'</td></tr>';
+var isRoster = HC_ROSTER_LOGINS.has(e.login);
+var st = e.t >= totalMax ? '<span class="badge badge-green">OK ('+e.t+')</span>' : '<span class="badge badge-red">Under ('+e.t+'/'+totalMax+')</span>';
+var rosterBadge = isRoster ? '<span class="badge badge-green">Yes</span>' : '<span class="badge badge-orange">Extra</span>';
+var rowCls = (isRoster && e.t < totalMax) ? ' class="under4-highlight"' : '';
+ld+='<tr'+rowCls+'><td>'+e.login+'</td><td>'+e.c.s+'</td><td>'+e.c.r+'</td><td>'+e.c.o+'</td><td>'+e.c.f+'</td><td>'+e.t+'</td><td>'+st+'</td><td>'+rosterBadge+'</td></tr>';
 });
 ld+='</tbody></table>';
 document.getElementById('loginDistTable').innerHTML=ld;
@@ -449,22 +647,36 @@ td2+='<tr><td><span class="tag tag-'+t.n.toLowerCase()+'">'+t.n+'</span></td><td
 });
 td2+='</tbody></table>';
 document.getElementById('typeDistTable').innerHTML=td2;
+
+// Under 4 Audits tab - HC roster logins with < 4 tickets
+var u4='<table><thead><tr><th>#</th><th>Login</th><th>Skill (HC Roster)</th><th>Site</th><th>Tickets in Data</th><th>Sampled</th><th>Gap</th><th>Reason</th></tr></thead><tbody>';
+under4Logins.sort(function(a,b){return a.total - b.total || a.skill.localeCompare(b.skill)});
+under4Logins.forEach(function(item,idx){
+var ticketsInData = rawData.filter(function(r){return r.login===item.login}).length;
+var reason = ticketsInData === 0 ? 'No tickets in raw data' : (item.total === 0 ? 'No eligible tickets sampled' : 'Insufficient variety ('+item.total+' sampled)');
+u4+='<tr class="under4-highlight"><td>'+(idx+1)+'</td><td><b>'+item.login+'</b></td><td>'+item.skill+'</td><td>'+item.site+'</td><td>'+ticketsInData+'</td><td>'+item.total+'</td><td>'+(totalMax-item.total)+'</td><td>'+reason+'</td></tr>';
+});
+u4+='</tbody></table>';
+if(under4Logins.length===0) u4='<p style="padding:20px;text-align:center;color:#27ae60;font-weight:600">&#10004; All HC roster logins have 4 or more audits assigned!</p>';
+document.getElementById('under4Table').innerHTML=u4;
 }
+
 function showTab(tab){
 document.querySelectorAll('#resultsCard .tab-btn').forEach(function(b){b.classList.remove('active')});
-['sample','coverage','loginDist','auditorDist','typeDist'].forEach(function(t){document.getElementById('tab-'+t).classList.add('hidden')});
+['sample','coverage','loginDist','auditorDist','typeDist','under4'].forEach(function(t){document.getElementById('tab-'+t).classList.add('hidden')});
 document.getElementById('tab-'+tab).classList.remove('hidden');
 var tabs=document.querySelectorAll('#resultsCard .tab-btn');
-var map={sample:0,coverage:1,loginDist:2,auditorDist:3,typeDist:4};
+var map={sample:0,coverage:1,loginDist:2,auditorDist:3,typeDist:4,under4:5};
 if(tabs[map[tab]])tabs[map[tab]].classList.add('active');
 }
 
 function exportCSV(){
 if(!sampleData.length)return;
-var header='Login,Resolver Group,Ticket ID,Sample Type,Skill,Auditor';
+var header='Login,Resolver Group,Ticket ID,Sample Type,Skill,Auditor,HC Roster';
 var rows=sampleData.map(function(r){
 var m=MASTER_RG_LIST.find(function(x){return x.rg===r.rg})||ALL_RG_LIST.find(function(x){return x.rg===r.rg});var skill=m?m.skill:'';
-return'"'+r.login+'","'+r.rg+'","'+r.ticketId+'","'+r.sampleType+'","'+skill+'","'+(r.auditor||'')+'"';
+var isRoster=HC_ROSTER_LOGINS.has(r.login)?'Yes':'No';
+return'"'+r.login+'","'+r.rg+'","'+r.ticketId+'","'+r.sampleType+'","'+skill+'","'+(r.auditor||'')+'","'+isRoster+'"';
 });
 var csv=[header].concat(rows).join('\n');
 var blob=new Blob([csv],{type:'text/csv'});
@@ -477,6 +689,7 @@ rawData=[];sampleData=[];
 document.getElementById('configCard').classList.add('hidden');
 document.getElementById('summaryCard').classList.add('hidden');
 document.getElementById('resultsCard').classList.add('hidden');
+document.getElementById('missingLoginsCard').classList.add('hidden');
 document.getElementById('uploadStatus').className='upload-status';
 document.getElementById('fileInput').value='';
 }
