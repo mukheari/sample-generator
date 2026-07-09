@@ -549,13 +549,13 @@ renderResults(coveredRGs,lc);
 function normalizeSkill(skill){
 if(!skill)return '';
 var s=skill.trim();
-// New Freeway / FW -> FREEWAY
-if(s==='New Freeway'||s==='FW'||s==='Freeway')return 'FREEWAY';
-// Brand -> BRAND
-if(s==='Brand')return 'BRAND';
-// FBA -> FBA+LATAM
-if(s==='FBA')return 'FBA+LATAM';
-// DCP / ABP All -> no auditor pool (leave as-is)
+if(s==='New Freeway'||s==='FW'||s==='Freeway'||s==='FREEWAY')return 'FREEWAY';
+if(s==='Brand'||s==='BRAND')return 'BRAND';
+if(s==='FBA'||s==='FBA+LATAM')return 'FBA+LATAM';
+if(s==='AIND')return 'AIND';
+if(s==='ESLIS')return 'ESLIS';
+if(s==='FUII')return 'FUII';
+if(s==='DCP'||s==='ABP All')return s; // no auditor pool
 return s;
 }
 
@@ -565,10 +565,27 @@ const EXTRA_RG_SKILL_MAP={
 "T4 Seller Flex Issues":"AIND",
 "T4 Amazon Easy Ship Program":"AIND",
 "T4 IN FBA OPS":"AIND",
+"T4 IN-FBA-TAX":"AIND",
 "T4 TRY FBA 2020":"AIND",
 "T4 Referral-fee":"AIND",
+"T4 Referral-fee Tier2":"AIND",
 "T4 Credit Ops Project IN":"AIND",
 "T4 Seller Catalog Services-IN":"AIND",
+"T4 Order Management Tier2":"AIND",
+"T4 EG Order Management":"AIND",
+"T4 KSA Order Management":"AIND",
+"T4 MENA Order Management":"AIND",
+"T4 India Andon Internal":"AIND",
+"T4 ML Audit group":"AIND",
+"T4 AESP Tier2":"AIND",
+"T4 IN SSR APOB":"AIND",
+"T4 Datanet Autocuts":"AIND",
+"T4 ES FWD WMM":"AIND",
+"T4 ES FWD WMM Tier2":"AIND",
+"T4 TOP-Offenders-Program":"AIND",
+"T4 Image Suppression":"AIND",
+"T4 SCS - Yank requests":"AIND",
+"T4 TR-3P-OOC":"AIND",
 "T4 FBA Inbound Placement":"FBA+LATAM",
 "T4 FBA CET-SWIVT Requests":"FBA+LATAM",
 "T4 MCF-Support-Team":"FBA+LATAM",
@@ -577,24 +594,121 @@ const EXTRA_RG_SKILL_MAP={
 "T4 FBA MX":"FBA+LATAM",
 "T4 FBA RBS":"FBA+LATAM",
 "T4 Matching 3p clean-up":"FBA+LATAM",
-"T4 Goods Package":"FBA+LATAM"
+"T4 Goods Package":"FBA+LATAM",
+"T4 SandOp FOS":"FBA+LATAM",
+"T4 FBA Removals":"FBA+LATAM",
+"T4 SFC Removals":"FBA+LATAM",
+"T4 FBA Inbound Control":"FBA+LATAM",
+"T4 FBA Credit Ops IOG Flips EU":"FBA+LATAM",
+"T4 SCOT Unproductive units":"FBA+LATAM",
+"T4 Support Ops Fees":"FBA+LATAM",
+"T4 IBA 3P Taskforce":"FBA+LATAM",
+"T4 SSD Supply Chain":"FBA+LATAM",
+"T4 BRBV":"BRAND",
+"T4 EIM escalations":"BRAND",
+"T4 ASIN throttle appeals":"BRAND",
+"T4 Generics Appeals":"BRAND",
+"T4 INTL TM Verification Team":"BRAND",
+"T4 IDQ Bonsai Ops":"BRAND",
+"T4 HSR PM":"BRAND",
+"T4 BrandBuilderBiz":"BRAND",
+"T4 SPC-Business":"BRAND",
+"T4 Asin Throttle Approvers":"BRAND",
+"T4 USPTO Abuse":"BRAND",
+"T4 MFN Performance":"BRAND",
+"T4 AHS MFN Performance":"BRAND",
+"T4 Seller Shipping":"BRAND",
+"T4 MO - variation appeals":"BRAND",
+"T4 Counterfeit Gate":"BRAND",
+"T4 data-augmenter-catlock":"BRAND",
+"T4 IDAP-SPA":"BRAND",
+"T4 BadCat - Fee Correction":"FUII",
+"T4 CS-AAQ":"FUII",
+"T4 ARCHE":"FUII",
+"T4 Video-Ads-Content":"FUII",
+"T4 BadCat Tier2":"FUII",
+"T4 ContraG":"FUII",
+"T4 PSX":"FUII",
+"T4 SBR":"FUII",
+"T4 EU C-Ops Reinstatement Req":"FUII",
+"T4 EU5 Reinstatement Requests":"FUII",
+"T4 PS Reinstatement":"FUII",
+"T4 Recall reinstatement":"FUII",
+"T4 MCE":"FUII",
+"T4 PromotionAnalyticsBiz":"FUII",
+"T4 3p-asin-localization-team":"FUII",
+"T4 PO Chargebacks":"FUII",
+"T4 POUX":"FUII",
+"T4 PAX":"FUII",
+"T4 VineBiz":"FUII",
+"T4 SellerPoweredCoupons":"FUII",
+"T4 AGS Atlas":"FUII",
+"T4 Product Bundles":"FUII",
+"T4 MBO Gating Tickets":"FUII",
+"T4 IA-Bento PPU":"FUII",
+"T4 US Tax Identity Collection":"FUII",
+"T4 AmazonBrandAnalyticsBiz":"FUII",
+"T4 EasyShip Turkey":"FUII",
+"T4 rbs-sizeservices-resolver":"FUII",
+"T4 3p ALT Tier2":"FUII",
+"T4 KPEX Ops":"FUII",
+"T4 WTS ACE corrections":"FUII",
+"T4 WTS-Variations UVF":"FUII",
+"T4 WTS-Corrections-EU5":"FUII",
+"T4 VCS EU":"FUII",
+"T4 ESR - LR":"FUII",
+"T4 BR ES SF":"ESLIS",
+"T4 MX ES SF":"ESLIS",
+"T4 FBA Credit Ops MENA":"ESLIS",
+"T4 FBA Credit Ops AU":"ESLIS",
+"T4 Global Remote Fulfillment":"ESLIS",
+"T4 Iridium":"ESLIS",
+"T4 FBA Ops MENA":"ESLIS",
+"T4 Brand Builder Content PM":"ESLIS",
+"T4 Product Compliance Software":"ESLIS",
+"T4 FBA RBS AU":"ESLIS",
+"T4 Catalog Risk RMs":"ESLIS",
+"T4 AU SG Easy Ship":"ESLIS",
+"T4 SBE Discoverability":"ESLIS",
+"T4 LatAm External Fulfillment":"ESLIS",
+"FBA IB WF Op Specialists":"FREEWAY",
+"FBA Fee Execution":"FREEWAY",
+"T4 Shipping":"FREEWAY",
+"T4 Payments":"FREEWAY",
+"T4 Freeway MerchAt":"FREEWAY",
+"T4 Freeway FBA":"FREEWAY",
+"T4 Freeway FUII":"FREEWAY",
+"T4 Freeway VCM":"FREEWAY",
+"T4 Account Settings":"FREEWAY",
+"T4 Catalog Quality":"FREEWAY",
+"T4 Listings":"FREEWAY",
+"T4 Orders":"FREEWAY",
+"T4 CISS":"FREEWAY",
+"Seller Support T4":"FREEWAY",
+"Seller Support T4 FBA":"FREEWAY",
+"Seller Support T4 VCM":"FREEWAY",
+"T4 Anchor Appeals":"FREEWAY",
+"T4 Vendor Group Edits":"FREEWAY",
+"T4 manage-your-experiments-biz":"FREEWAY"
 };
 
 function getSkillForRG(rg){
-// First check master list
+// Check extra mappings first (most comprehensive)
+if(EXTRA_RG_SKILL_MAP[rg])return EXTRA_RG_SKILL_MAP[rg];
+// Then check master list
 var m=MASTER_RG_LIST.find(function(r){return r.rg===rg});
 if(m)return normalizeSkill(m.skill);
 // Then check all RG list
 var a=ALL_RG_LIST.find(function(r){return r.rg===rg});
 if(a)return normalizeSkill(a.skill);
-// Then check extra mappings
-if(EXTRA_RG_SKILL_MAP[rg])return EXTRA_RG_SKILL_MAP[rg];
 // Fallback: try to infer from name
-if(rg.includes('Credit Ops')||rg.includes('Easy Ship')||rg.includes('Seller Flex')||rg.includes('Referral-fee')||rg.includes('IN FBA')||rg.includes('TRY FBA')||rg.includes('Seller Catalog'))return 'AIND';
-if(rg.includes('FBA'))return 'FBA+LATAM';
-if(rg.includes('Brand')||rg.includes('BRBV')||rg.includes('Generics')||rg.includes('INTL TM')||rg.includes('MFN Performance')||rg.includes('Seller Shipping')||rg.includes('SPC-Business')||rg.includes('IDAP'))return 'BRAND';
-if(rg.includes('Freeway')||rg.includes('Shipping')||rg.includes('Payments')||rg.includes('Account Settings')||rg.includes('Catalog Quality')||rg.includes('Listings')||rg.includes('Orders')||rg.includes('CISS')||rg.includes('MerchAt')||rg.includes('Anchor'))return 'FREEWAY';
-return normalizeSkill(rg);
+if(rg.includes('Credit Ops')||rg.includes('Easy Ship')||rg.includes('Seller Flex')||rg.includes('Referral-fee')||rg.includes('IN FBA')||rg.includes('IN-FBA')||rg.includes('TRY FBA')||rg.includes('Seller Catalog')||rg.includes('Order Management')||rg.includes('Andon'))return 'AIND';
+if(rg.includes('FBA')||rg.includes('SnS')||rg.includes('Matching 3p')||rg.includes('Goods Package')||rg.includes('MCF'))return 'FBA+LATAM';
+if(rg.includes('Brand')||rg.includes('BRBV')||rg.includes('Generics')||rg.includes('INTL TM')||rg.includes('MFN Performance')||rg.includes('Seller Shipping')||rg.includes('SPC-Business')||rg.includes('IDAP')||rg.includes('HSR')||rg.includes('USPTO'))return 'BRAND';
+if(rg.includes('BadCat')||rg.includes('Reinstatement')||rg.includes('ContraG')||rg.includes('SBR')||rg.includes('VineBiz')||rg.includes('PromotionAnalytics')||rg.includes('3p-asin')||rg.includes('MCE')||rg.includes('Video-Ads')||rg.includes('PSX')||rg.includes('PAX'))return 'FUII';
+if(rg.includes('Freeway')||rg.includes('Shipping')||rg.includes('Payments')||rg.includes('Account Settings')||rg.includes('Catalog Quality')||rg.includes('Listings')||rg.includes('Orders')||rg.includes('CISS')||rg.includes('MerchAt')||rg.includes('Anchor')||rg.includes('Seller Support T4'))return 'FREEWAY';
+if(rg.includes('ES SF')||rg.includes('Credit Ops MENA')||rg.includes('Credit Ops AU')||rg.includes('Iridium')||rg.includes('Product Compliance')||rg.includes('SBE Discoverability')||rg.includes('Brand Builder Content'))return 'ESLIS';
+return '';
 }
 
 function assignAuditors(){
