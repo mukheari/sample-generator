@@ -545,13 +545,64 @@ assignAuditors();
 renderResults(coveredRGs,lc);
 }
 
+// Skill normalization: map variant skill names to auditor config skill names
+function normalizeSkill(skill){
+if(!skill)return '';
+var s=skill.trim();
+// New Freeway / FW -> FREEWAY
+if(s==='New Freeway'||s==='FW'||s==='Freeway')return 'FREEWAY';
+// Brand -> BRAND
+if(s==='Brand')return 'BRAND';
+// FBA -> FBA+LATAM
+if(s==='FBA')return 'FBA+LATAM';
+// DCP / ABP All -> no auditor pool (leave as-is)
+return s;
+}
+
+// Additional RG-to-skill mappings for RGs not in MASTER/ALL lists
+const EXTRA_RG_SKILL_MAP={
+"T4 Credit Ops Project IN Tier2":"AIND",
+"T4 Seller Flex Issues":"AIND",
+"T4 Amazon Easy Ship Program":"AIND",
+"T4 IN FBA OPS":"AIND",
+"T4 TRY FBA 2020":"AIND",
+"T4 Referral-fee":"AIND",
+"T4 Credit Ops Project IN":"AIND",
+"T4 Seller Catalog Services-IN":"AIND",
+"T4 FBA Inbound Placement":"FBA+LATAM",
+"T4 FBA CET-SWIVT Requests":"FBA+LATAM",
+"T4 MCF-Support-Team":"FBA+LATAM",
+"T4 FBA Crops":"FBA+LATAM",
+"T4 SnS WW Ops":"FBA+LATAM",
+"T4 FBA MX":"FBA+LATAM",
+"T4 FBA RBS":"FBA+LATAM",
+"T4 Matching 3p clean-up":"FBA+LATAM",
+"T4 Goods Package":"FBA+LATAM"
+};
+
+function getSkillForRG(rg){
+// First check master list
+var m=MASTER_RG_LIST.find(function(r){return r.rg===rg});
+if(m)return normalizeSkill(m.skill);
+// Then check all RG list
+var a=ALL_RG_LIST.find(function(r){return r.rg===rg});
+if(a)return normalizeSkill(a.skill);
+// Then check extra mappings
+if(EXTRA_RG_SKILL_MAP[rg])return EXTRA_RG_SKILL_MAP[rg];
+// Fallback: try to infer from name
+if(rg.includes('Credit Ops')||rg.includes('Easy Ship')||rg.includes('Seller Flex')||rg.includes('Referral-fee')||rg.includes('IN FBA')||rg.includes('TRY FBA')||rg.includes('Seller Catalog'))return 'AIND';
+if(rg.includes('FBA'))return 'FBA+LATAM';
+if(rg.includes('Brand')||rg.includes('BRBV')||rg.includes('Generics')||rg.includes('INTL TM')||rg.includes('MFN Performance')||rg.includes('Seller Shipping')||rg.includes('SPC-Business')||rg.includes('IDAP'))return 'BRAND';
+if(rg.includes('Freeway')||rg.includes('Shipping')||rg.includes('Payments')||rg.includes('Account Settings')||rg.includes('Catalog Quality')||rg.includes('Listings')||rg.includes('Orders')||rg.includes('CISS')||rg.includes('MerchAt')||rg.includes('Anchor'))return 'FREEWAY';
+return normalizeSkill(rg);
+}
+
 function assignAuditors(){
 var cfg=getAuditorConfig();
 var cnt={};cfg.forEach(function(a){cnt[a.auditor]=0});
 var bySkill={};
 sampleData.forEach(function(row){
-var m=MASTER_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)})||ALL_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)});
-var skill=m?m.skill:'';
+var skill=getSkillForRG(row.displayRG||row.rg);
 if(!bySkill[skill])bySkill[skill]=[];
 bySkill[skill].push(row);
 });
@@ -609,8 +660,8 @@ document.getElementById('under4Tab').innerHTML = (under4Count>0?'&#9888; ':'')+'
 // Sample table - highlight logins with < 4 from HC roster
 var h='<table><thead><tr><th>#</th><th>Login</th><th>Resolver Group</th><th>Ticket ID</th><th>Type</th><th>Skill</th><th>Auditor</th><th>HC Roster</th></tr></thead><tbody>';
 sampleData.forEach(function(row,i){
-var m=MASTER_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)})||ALL_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)});
-var skill=m?m.skill:'-';
+var skill=getSkillForRG(row.displayRG||row.rg);
+var cls='tag-'+row.sampleType.toLowerCase();
 var cls='tag-'+row.sampleType.toLowerCase();
 var isRoster = HC_ROSTER_LOGINS.has(row.login);
 var loginTotal = lc[row.login] ? (lc[row.login].s+lc[row.login].r+lc[row.login].o+lc[row.login].f) : 0;
@@ -649,7 +700,7 @@ document.getElementById('loginDistTable').innerHTML=ld;
 var acfg=getAuditorConfig();
 var ac={};
 sampleData.forEach(function(row){
-var aud=row.auditor||'(none)';var m=MASTER_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)})||ALL_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)});var skill=m?m.skill:'-';
+var aud=row.auditor||'(none)';var skill=getSkillForRG(row.displayRG||row.rg);
 var k=aud+'|'+skill;if(!ac[k])ac[k]={auditor:aud,skill:skill,count:0};ac[k].count++;
 });
 var ad='<table><thead><tr><th>Auditor</th><th>Skill</th><th>Assigned</th><th>Max</th><th>Status</th></tr></thead><tbody>';
@@ -697,7 +748,7 @@ function exportCSV(){
 if(!sampleData.length)return;
 var header='Login,Resolver Group,Ticket ID,Sample Type,Skill,Auditor,HC Roster';
 var rows=sampleData.map(function(r){
-var m=MASTER_RG_LIST.find(function(x){return x.rg===(r.displayRG||r.rg)})||ALL_RG_LIST.find(function(x){return x.rg===(r.displayRG||r.rg)});var skill=m?m.skill:'';
+var skill=getSkillForRG(r.displayRG||r.rg);
 var isRoster=HC_ROSTER_LOGINS.has(r.login)?'Yes':'No';
 return'"'+r.login+'","'+(r.displayRG||r.rg)+'","'+r.ticketId+'","'+r.sampleType+'","'+skill+'","'+(r.auditor||'')+'","'+isRoster+'"';
 });
