@@ -117,9 +117,10 @@ table{width:100%;border-collapse:collapse;font-size:.82em}th,td{border:1px solid
 </div>
 </div>
 <script>
-// ===== HC ROSTER WK 27 2026 - Required Logins for Auditing =====
+// ===== HC ROSTER - Required Logins for Auditing =====
+// TODO: Load from external file - paste updated HC_ROSTER data below
 const HC_ROSTER_WK27 = [
-{login:"aaishwaa",skill:"AIND",site:"MAA"},{login:"aakansse",skill:"AIND",site:"UP"},{login:"abduljsw",skill:"ESLIS",site:"HYD"},{login:"abinesru",skill:"AIND",site:"MAA"},{login:"adibbhar",skill:"FBA",site:"AP"},
+// DATA REMOVED - awaiting updated file
 {login:"adriuban",skill:"AIND",site:"MNL"},{login:"adrosmil",skill:"AIND",site:"MNL"},{login:"agcelsia",skill:"AIND",site:"MAA"},{login:"agnemadr",skill:"Brand",site:"SJO"},{login:"agrasha",skill:"AIND",site:"UP"},
 {login:"ajabigai",skill:"AIND",site:"MNL"},{login:"akashoma",skill:"AIND",site:"HYD"},{login:"akushrm",skill:"ESLIS",site:"HYD"},{login:"alainpaa",skill:"ESLIS",site:"MNL"},{login:"alexidiz",skill:"AIND",site:"MNL"},
 {login:"allevill",skill:"FUII",site:"MNL"},{login:"almsocor",skill:"FBA",site:"MNL"},{login:"altafmub",skill:"FUII",site:"HYD"},{login:"alvinlua",skill:"AIND",site:"MNL"},{login:"alvjeffn",skill:"Brand",site:"SJO"},
@@ -233,7 +234,7 @@ const MASTER_RG_LIST=[
 {skill:"AIND",rg:"T4 Seller Catalog Services-IN"},{skill:"AIND",rg:"T4 Referral-fee"},{skill:"AIND",rg:"T4 EG Order Management"},{skill:"AIND",rg:"T4 KSA Order Management"},{skill:"AIND",rg:"T4 MENA Order Management"},{skill:"AIND",rg:"T4 India Andon Internal"},{skill:"AIND",rg:"T4 ML Audit group"},{skill:"AIND",rg:"T4 TRY FBA 2020"},{skill:"AIND",rg:"T4 Credit Ops Project IN"},{skill:"AIND",rg:"T4 Order Management Tier2"},{skill:"AIND",rg:"T4 Referral-fee Tier2"},{skill:"AIND",rg:"T4 AESP Tier2"},
 {skill:"BRAND",rg:"T4 BRBV"},{skill:"BRAND",rg:"T4 EIM escalations"},{skill:"BRAND",rg:"T4 ASIN throttle appeals"},{skill:"BRAND",rg:"T4 Generics Appeals"},
 {skill:"ESLIS",rg:"T4 BR ES SF"},{skill:"ESLIS",rg:"T4 MX ES SF"},{skill:"ESLIS",rg:"T4 FBA Credit Ops MENA"},{skill:"ESLIS",rg:"T4 FBA Credit Ops AU"},{skill:"ESLIS",rg:"T4 Global Remote Fulfillment"},
-{skill:"FBA+LATAM",rg:"T4 Goods Package"},{skill:"FBA+LATAM",rg:"T4 Matching 3p clean-up"},{skill:"FBA+LATAM",rg:"T4 FBA RBS"},{skill:"FBA+LATAM",rg:"T4 FBA MX"},{skill:"FBA+LATAM",rg:"T4 SnS WW Ops"},
+{skill:"FBA",rg:"T4 Goods Package"},{skill:"FBA",rg:"T4 Matching 3p clean-up"},{skill:"FBA",rg:"T4 FBA RBS"},{skill:"FBA",rg:"T4 FBA MX"},{skill:"FBA",rg:"T4 SnS WW Ops"},
 {skill:"FUII",rg:"T4 BadCat - Fee Correction"},{skill:"FUII",rg:"T4 CS-AAQ"},{skill:"FUII",rg:"T4 ARCHE"},{skill:"FUII",rg:"T4 Video-Ads-Content"},{skill:"FUII",rg:"T4 BadCat Tier2"},
 {skill:"FREEWAY",rg:"FBA IB WF Op Specialists"},{skill:"FREEWAY",rg:"FBA Fee Execution"}
 ];
@@ -288,9 +289,9 @@ const AUDITOR_CONFIG=[
 {skill:"AIND",auditor:"debkuuch",maxCount:39},{skill:"AIND",auditor:"dvya",maxCount:39},{skill:"AIND",auditor:"xsakthiv",maxCount:39},{skill:"AIND",auditor:"ramyaare",maxCount:39},{skill:"AIND",auditor:"shehmohd",maxCount:39},{skill:"AIND",auditor:"lealmicm",maxCount:39},
 {skill:"BRAND",auditor:"verchess",maxCount:32},{skill:"BRAND",auditor:"golls",maxCount:32},{skill:"BRAND",auditor:"fsotojim",maxCount:32},
 {skill:"ESLIS",auditor:"singhbbp",maxCount:49},{skill:"ESLIS",auditor:"arishamu",maxCount:49},{skill:"ESLIS",auditor:"ggener",maxCount:49},
-{skill:"FBA+LATAM",auditor:"anebh",maxCount:32},{skill:"FBA+LATAM",auditor:"shrshivi",maxCount:32},{skill:"FBA+LATAM",auditor:"kthiram",maxCount:32},{skill:"FBA+LATAM",auditor:"joscasts",maxCount:32},
+{skill:"FBA",auditor:"anebh",maxCount:32},{skill:"FBA",auditor:"shrshivi",maxCount:32},{skill:"FBA",auditor:"kthiram",maxCount:32},{skill:"FBA",auditor:"joscasts",maxCount:32},
 {skill:"FUII",auditor:"vkeerthd",maxCount:36},{skill:"FUII",auditor:"salliene",maxCount:36},{skill:"FUII",auditor:"zaidihin",maxCount:36},
-{skill:"FREEWAY",auditor:"affarhe",maxCount:15},{skill:"FREEWAY",auditor:"kumarid",maxCount:15},{skill:"FREEWAY",auditor:"goaguila",maxCount:15},{skill:"FREEWAY",auditor:"cespel",maxCount:15}
+{skill:"FREEWAY",auditor:"cespel",maxCount:15},{skill:"FREEWAY",auditor:"kumarid",maxCount:15},{skill:"FREEWAY",auditor:"affarhe",maxCount:15},{skill:"FREEWAY",auditor:"goaguila",maxCount:15}
 ];
 
 let rawData=[],sampleData=[];
