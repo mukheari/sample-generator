@@ -425,17 +425,24 @@ sampleData=[];
 var sampled={};
 var lc={};
 var byLogin={};
-rawData.forEach(function(row){if(!byLogin[row.login])byLogin[row.login]=[];byLogin[row.login].push(row)});
+rawData.forEach(function(row){
+// Match ticket login (Col D created_by, fallback Col E resolver) against HC Roster Login ID (Col C)
+if(!HC_ROSTER_LOGINS.has(row.login))return;
+if(!byLogin[row.login])byLogin[row.login]=[];
+byLogin[row.login].push(row);
+});
+// Only consider tickets from HC roster logins for sampling
+var rosterData = rawData.filter(function(row){return HC_ROSTER_LOGINS.has(row.login)});
 Object.keys(byLogin).forEach(function(l){lc[l]={s:0,r:0,o:0,f:0}});
 function total(l){return lc[l].s+lc[l].r+lc[l].o+lc[l].f}
 var coveredRGs={};
 var rgMins=getRGMins();
 
 // PHASE 1: Sensitive - RG coverage first
-var availRGs=MASTER_RG_NAMES.filter(function(rg){return rawData.some(function(r){return r.rg===rg})}).sort(function(a,b){return rawData.filter(function(r){return r.rg===a}).length-rawData.filter(function(r){return r.rg===b}).length});
+var availRGs=MASTER_RG_NAMES.filter(function(rg){return rosterData.some(function(r){return r.rg===rg})}).sort(function(a,b){return rosterData.filter(function(r){return r.rg===a}).length-rosterData.filter(function(r){return r.rg===b}).length});
 for(var ri=0;ri<availRGs.length;ri++){
 var rg=availRGs[ri];
-var cands=shuffle(rawData.filter(function(t){return t.rg===rg&&!sampled[t.ticketId]&&lc[t.login].s<sensMax&&total(t.login)<totalMax}));
+var cands=shuffle(rosterData.filter(function(t){return t.rg===rg&&!sampled[t.ticketId]&&lc[t.login].s<sensMax&&total(t.login)<totalMax}));
 if(cands.length>0){var p=cands[0];sampleData.push(Object.assign({},p,{sampleType:'Sensitive'}));sampled[p.ticketId]=true;lc[p.login].s++;coveredRGs[rg]=true}
 }
 
@@ -444,7 +451,7 @@ for(var ri2=0;ri2<availRGs.length;ri2++){
 var rg2=availRGs[ri2];var minReq=rgMins[rg2]||0;if(minReq<=0)continue;
 var cur=sampleData.filter(function(s){return s.rg===rg2&&s.sampleType==='Sensitive'}).length;
 while(cur<minReq){
-var c2=shuffle(rawData.filter(function(t){return t.rg===rg2&&!sampled[t.ticketId]&&lc[t.login].s<sensMax&&total(t.login)<totalMax}));
+var c2=shuffle(rosterData.filter(function(t){return t.rg===rg2&&!sampled[t.ticketId]&&lc[t.login].s<sensMax&&total(t.login)<totalMax}));
 if(!c2.length)break;var p2=c2[0];sampleData.push(Object.assign({},p2,{sampleType:'Sensitive'}));sampled[p2.ticketId]=true;lc[p2.login].s++;coveredRGs[rg2]=true;cur++;
 }
 }
@@ -470,7 +477,7 @@ for(var rmi=0;rmi<reassignRGsWithMin.length;rmi++){
 var rrg=reassignRGsWithMin[rmi];var rmin=rgReassignMins[rrg];
 var rcur=sampleData.filter(function(s){return s.rg===rrg&&s.sampleType==='Reassign'}).length;
 while(rcur<rmin){
-var rc=shuffle(rawData.filter(function(t){return t.rg===rrg&&!t.rg.startsWith('T4')&&!sampled[t.ticketId]&&total(t.login)<totalMax}));
+var rc=shuffle(rosterData.filter(function(t){return t.rg===rrg&&!t.rg.startsWith('T4')&&!sampled[t.ticketId]&&total(t.login)<totalMax}));
 if(!rc.length)break;var rp=rc[0];sampleData.push(Object.assign({},rp,{sampleType:'Reassign'}));sampled[rp.ticketId]=true;lc[rp.login].r++;rcur++;
 }
 }
@@ -495,7 +502,7 @@ for(var omi=0;omi<reopenRGsWithMin.length;omi++){
 var org=reopenRGsWithMin[omi];var omin=rgReopenMins[org];
 var ocur=sampleData.filter(function(s){return s.rg===org&&s.sampleType==='Reopen'}).length;
 while(ocur<omin){
-var oc=shuffle(rawData.filter(function(t){return t.rg===org&&isReopen(t.colF)&&!sampled[t.ticketId]&&total(t.login)<totalMax}));
+var oc=shuffle(rosterData.filter(function(t){return t.rg===org&&isReopen(t.colF)&&!sampled[t.ticketId]&&total(t.login)<totalMax}));
 if(!oc.length)break;var op=oc[0];sampleData.push(Object.assign({},op,{sampleType:'Reopen'}));sampled[op.ticketId]=true;lc[op.login].o++;ocur++;
 }
 }
