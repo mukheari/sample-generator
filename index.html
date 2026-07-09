@@ -552,7 +552,7 @@ if(!skill)return '';
 var s=skill.trim();
 if(s==='New Freeway'||s==='FW'||s==='Freeway'||s==='FREEWAY')return 'FREEWAY';
 if(s==='Brand'||s==='BRAND')return 'BRAND';
-if(s==='FBA'||s==='FBA+LATAM')return 'FBA+LATAM';
+if(s==='FBA')return 'FBA';
 if(s==='AIND')return 'AIND';
 if(s==='ESLIS')return 'ESLIS';
 if(s==='FUII')return 'FUII';
@@ -587,24 +587,24 @@ const EXTRA_RG_SKILL_MAP={
 "T4 Image Suppression":"AIND",
 "T4 SCS - Yank requests":"AIND",
 "T4 TR-3P-OOC":"AIND",
-"T4 FBA Inbound Placement":"FBA+LATAM",
-"T4 FBA CET-SWIVT Requests":"FBA+LATAM",
-"T4 MCF-Support-Team":"FBA+LATAM",
-"T4 FBA Crops":"FBA+LATAM",
-"T4 SnS WW Ops":"FBA+LATAM",
-"T4 FBA MX":"FBA+LATAM",
-"T4 FBA RBS":"FBA+LATAM",
-"T4 Matching 3p clean-up":"FBA+LATAM",
-"T4 Goods Package":"FBA+LATAM",
-"T4 SandOp FOS":"FBA+LATAM",
-"T4 FBA Removals":"FBA+LATAM",
-"T4 SFC Removals":"FBA+LATAM",
-"T4 FBA Inbound Control":"FBA+LATAM",
-"T4 FBA Credit Ops IOG Flips EU":"FBA+LATAM",
-"T4 SCOT Unproductive units":"FBA+LATAM",
-"T4 Support Ops Fees":"FBA+LATAM",
-"T4 IBA 3P Taskforce":"FBA+LATAM",
-"T4 SSD Supply Chain":"FBA+LATAM",
+"T4 FBA Inbound Placement":"FBA",
+"T4 FBA CET-SWIVT Requests":"FBA",
+"T4 MCF-Support-Team":"FBA",
+"T4 FBA Crops":"FBA",
+"T4 SnS WW Ops":"FBA",
+"T4 FBA MX":"FBA",
+"T4 FBA RBS":"FBA",
+"T4 Matching 3p clean-up":"FBA",
+"T4 Goods Package":"FBA",
+"T4 SandOp FOS":"FBA",
+"T4 FBA Removals":"FBA",
+"T4 SFC Removals":"FBA",
+"T4 FBA Inbound Control":"FBA",
+"T4 FBA Credit Ops IOG Flips EU":"FBA",
+"T4 SCOT Unproductive units":"FBA",
+"T4 Support Ops Fees":"FBA",
+"T4 IBA 3P Taskforce":"FBA",
+"T4 SSD Supply Chain":"FBA",
 "T4 BRBV":"BRAND",
 "T4 EIM escalations":"BRAND",
 "T4 ASIN throttle appeals":"BRAND",
@@ -704,7 +704,7 @@ var a=ALL_RG_LIST.find(function(r){return r.rg===rg});
 if(a)return normalizeSkill(a.skill);
 // Fallback: try to infer from name
 if(rg.includes('Credit Ops')||rg.includes('Easy Ship')||rg.includes('Seller Flex')||rg.includes('Referral-fee')||rg.includes('IN FBA')||rg.includes('IN-FBA')||rg.includes('TRY FBA')||rg.includes('Seller Catalog')||rg.includes('Order Management')||rg.includes('Andon'))return 'AIND';
-if(rg.includes('FBA')||rg.includes('SnS')||rg.includes('Matching 3p')||rg.includes('Goods Package')||rg.includes('MCF'))return 'FBA+LATAM';
+if(rg.includes('FBA')||rg.includes('SnS')||rg.includes('Matching 3p')||rg.includes('Goods Package')||rg.includes('MCF'))return 'FBA';
 if(rg.includes('Brand')||rg.includes('BRBV')||rg.includes('Generics')||rg.includes('INTL TM')||rg.includes('MFN Performance')||rg.includes('Seller Shipping')||rg.includes('SPC-Business')||rg.includes('IDAP')||rg.includes('HSR')||rg.includes('USPTO'))return 'BRAND';
 if(rg.includes('BadCat')||rg.includes('Reinstatement')||rg.includes('ContraG')||rg.includes('SBR')||rg.includes('VineBiz')||rg.includes('PromotionAnalytics')||rg.includes('3p-asin')||rg.includes('MCE')||rg.includes('Video-Ads')||rg.includes('PSX')||rg.includes('PAX'))return 'FUII';
 if(rg.includes('Freeway')||rg.includes('Shipping')||rg.includes('Payments')||rg.includes('Account Settings')||rg.includes('Catalog Quality')||rg.includes('Listings')||rg.includes('Orders')||rg.includes('CISS')||rg.includes('MerchAt')||rg.includes('Anchor')||rg.includes('Seller Support T4'))return 'FREEWAY';
