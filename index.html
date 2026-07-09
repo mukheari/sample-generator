@@ -319,13 +319,18 @@ if(colCIdx===-1&&(h==='reassign_group'||h==='reassigngroup'||h==='column_c'||h==
 if(colEIdx===-1&&(h==='resolver'||h==='column_e'||h==='columne'||h==='col_e'))colEIdx=i;
 if(colFIdx===-1&&(h.includes('reopen')||h==='column_f'||h==='columnf'||h==='col_f'||h==='colf'||h==='reopened'))colFIdx=i;
 }
-// If colC not detected by header name, assume it's the column right after rgIdx (Column B+1 = Column C)
-if(colCIdx===-1 && rgIdx!==-1){
+// If colC not detected by header name, use position 2 (standard Col C position)
+if(colCIdx===-1){
 var usedCols=new Set([loginIdx,rgIdx,ticketIdx,colEIdx,colFIdx]);
-if(rgIdx+1 < headers.length && !usedCols.has(rgIdx+1)) colCIdx=rgIdx+1;
+if(headers.length>2 && !usedCols.has(2)) colCIdx=2;
 }
-if(colEIdx===-1){const used=new Set([loginIdx,rgIdx,ticketIdx,colFIdx,colCIdx]);if(headers.length>4&&!used.has(4))colEIdx=4;else{for(let i=0;i<headers.length;i++){if(!used.has(i)&&i>2){colEIdx=i;break}}}}
-if(colFIdx===-1){const used=new Set([loginIdx,rgIdx,ticketIdx,colEIdx,colCIdx]);if(headers.length>5&&!used.has(5))colFIdx=5;else{for(let i=0;i<headers.length;i++){if(!used.has(i)&&i>3&&i!==colEIdx&&i!==colCIdx){colFIdx=i;break}}}}
+// Positional fallbacks for E and F based on standard 6-column layout
+if(colEIdx===-1){
+if(headers.length>4){var used=new Set([loginIdx,rgIdx,ticketIdx,colCIdx,colFIdx]);if(!used.has(4))colEIdx=4;}
+}
+if(colFIdx===-1){
+if(headers.length>5){var used2=new Set([loginIdx,rgIdx,ticketIdx,colCIdx,colEIdx]);if(!used2.has(5))colFIdx=5;}
+}
 return{loginIdx,rgIdx,ticketIdx,colCIdx,colEIdx,colFIdx};
 }
 
@@ -353,6 +358,8 @@ const rawLogin=loginIdx!==-1?(cols[loginIdx]||'').trim().replace(/^"|"$/g,''):''
 const colE=colEIdx!==-1&&cols.length>colEIdx?(cols[colEIdx]||'').trim().replace(/^"|"$/g,''):'';
 const colF=colFIdx!==-1&&cols.length>colFIdx?(cols[colFIdx]||'').trim().replace(/^"|"$/g,''):'';
 const login=rawLogin||colE||'';
+// Skip invalid logins (null, system accounts, ARN roles)
+if(!login || login==='null' || login.startsWith('app:') || login.startsWith('arn:'))continue;
 if(rg&&ticketId&&login)rawData.push({login,rg,ticketId,colC,colF});
 }
 if(!rawData.length){showStatus('No valid rows found.','error');return}
@@ -487,7 +494,7 @@ var rrg=reassignRGsWithMin[rmi];var rmin=rgReassignMins[rrg];
 var rcur=sampleData.filter(function(s){return s.rg===rrg&&s.sampleType==='Reassign'}).length;
 while(rcur<rmin){
 var rc=shuffle(rosterData.filter(function(t){return t.colC&&t.colC.startsWith('T4')&&!t.rg.startsWith('T4')&&!sampled[t.ticketId]&&total(t.login)<totalMax}));
-if(!rc.length)break;var rp=rc[0];sampleData.push(Object.assign({},rp,{sampleType:'Reassign'}));sampled[rp.ticketId]=true;lc[rp.login].r++;rcur++;
+if(!rc.length)break;var rp=rc[0];sampleData.push(Object.assign({},rp,{sampleType:'Reassign',displayRG:rp.colC}));sampled[rp.ticketId]=true;lc[rp.login].r++;rcur++;
 }
 }
 // Then fill 1 reassign per login
@@ -500,7 +507,7 @@ if(need2<=0)continue;
 if(lc[login2].r>=reassignCnt)continue;
 var c4=shuffle(byLogin[login2].filter(function(t){return t.colC&&t.colC.startsWith('T4')&&!t.rg.startsWith('T4')&&!sampled[t.ticketId]}));
 for(var i2=0;i2<Math.min(need2-lc[login2].r,c4.length);i2++){
-var p4=c4[i2];sampleData.push(Object.assign({},p4,{sampleType:'Reassign'}));sampled[p4.ticketId]=true;lc[p4.login].r++;
+var p4=c4[i2];sampleData.push(Object.assign({},p4,{sampleType:'Reassign',displayRG:p4.colC}));sampled[p4.ticketId]=true;lc[p4.login].r++;
 }
 }
 
@@ -543,7 +550,7 @@ var cfg=getAuditorConfig();
 var cnt={};cfg.forEach(function(a){cnt[a.auditor]=0});
 var bySkill={};
 sampleData.forEach(function(row){
-var m=MASTER_RG_LIST.find(function(r){return r.rg===row.rg})||ALL_RG_LIST.find(function(r){return r.rg===row.rg});
+var m=MASTER_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)})||ALL_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)});
 var skill=m?m.skill:'';
 if(!bySkill[skill])bySkill[skill]=[];
 bySkill[skill].push(row);
@@ -602,14 +609,14 @@ document.getElementById('under4Tab').innerHTML = (under4Count>0?'&#9888; ':'')+'
 // Sample table - highlight logins with < 4 from HC roster
 var h='<table><thead><tr><th>#</th><th>Login</th><th>Resolver Group</th><th>Ticket ID</th><th>Type</th><th>Skill</th><th>Auditor</th><th>HC Roster</th></tr></thead><tbody>';
 sampleData.forEach(function(row,i){
-var m=MASTER_RG_LIST.find(function(r){return r.rg===row.rg})||ALL_RG_LIST.find(function(r){return r.rg===row.rg});
+var m=MASTER_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)})||ALL_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)});
 var skill=m?m.skill:'-';
 var cls='tag-'+row.sampleType.toLowerCase();
 var isRoster = HC_ROSTER_LOGINS.has(row.login);
 var loginTotal = lc[row.login] ? (lc[row.login].s+lc[row.login].r+lc[row.login].o+lc[row.login].f) : 0;
 var rowCls = (isRoster && loginTotal < totalMax) ? ' class="under4-highlight"' : '';
 var rosterBadge = isRoster ? '<span class="badge badge-green">Yes</span>' : '<span class="badge badge-orange">Extra</span>';
-h+='<tr'+rowCls+'><td>'+(i+1)+'</td><td>'+row.login+'</td><td>'+row.rg+'</td><td>'+row.ticketId+'</td><td><span class="tag '+cls+'">'+row.sampleType+'</span></td><td>'+skill+'</td><td>'+(row.auditor||'-')+'</td><td>'+rosterBadge+'</td></tr>';
+h+='<tr'+rowCls+'><td>'+(i+1)+'</td><td>'+row.login+'</td><td>'+(row.displayRG||row.rg)+'</td><td>'+row.ticketId+'</td><td><span class="tag '+cls+'">'+row.sampleType+'</span></td><td>'+skill+'</td><td>'+(row.auditor||'-')+'</td><td>'+rosterBadge+'</td></tr>';
 });
 h+='</tbody></table>';
 document.getElementById('sampleTable').innerHTML=h;
@@ -642,7 +649,7 @@ document.getElementById('loginDistTable').innerHTML=ld;
 var acfg=getAuditorConfig();
 var ac={};
 sampleData.forEach(function(row){
-var aud=row.auditor||'(none)';var m=MASTER_RG_LIST.find(function(r){return r.rg===row.rg})||ALL_RG_LIST.find(function(r){return r.rg===row.rg});var skill=m?m.skill:'-';
+var aud=row.auditor||'(none)';var m=MASTER_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)})||ALL_RG_LIST.find(function(r){return r.rg===(row.displayRG||row.rg)});var skill=m?m.skill:'-';
 var k=aud+'|'+skill;if(!ac[k])ac[k]={auditor:aud,skill:skill,count:0};ac[k].count++;
 });
 var ad='<table><thead><tr><th>Auditor</th><th>Skill</th><th>Assigned</th><th>Max</th><th>Status</th></tr></thead><tbody>';
@@ -690,9 +697,9 @@ function exportCSV(){
 if(!sampleData.length)return;
 var header='Login,Resolver Group,Ticket ID,Sample Type,Skill,Auditor,HC Roster';
 var rows=sampleData.map(function(r){
-var m=MASTER_RG_LIST.find(function(x){return x.rg===r.rg})||ALL_RG_LIST.find(function(x){return x.rg===r.rg});var skill=m?m.skill:'';
+var m=MASTER_RG_LIST.find(function(x){return x.rg===(r.displayRG||r.rg)})||ALL_RG_LIST.find(function(x){return x.rg===(r.displayRG||r.rg)});var skill=m?m.skill:'';
 var isRoster=HC_ROSTER_LOGINS.has(r.login)?'Yes':'No';
-return'"'+r.login+'","'+r.rg+'","'+r.ticketId+'","'+r.sampleType+'","'+skill+'","'+(r.auditor||'')+'","'+isRoster+'"';
+return'"'+r.login+'","'+(r.displayRG||r.rg)+'","'+r.ticketId+'","'+r.sampleType+'","'+skill+'","'+(r.auditor||'')+'","'+isRoster+'"';
 });
 var csv=[header].concat(rows).join('\n');
 var blob=new Blob([csv],{type:'text/csv'});
