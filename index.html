@@ -427,7 +427,7 @@ function populateRGOverride(){let h='';MASTER_RG_LIST.forEach(function(item,i){h
 function populateRGReassignOverride(){let h='';ALL_RG_LIST.forEach(function(item,i){h+='<tr><td>'+item.skill+'</td><td>'+item.rg+'</td><td><input type="number" id="rgReassignMin_'+i+'" min="0" max="999" placeholder="-"></td></tr>'});document.getElementById('rgReassignTable').innerHTML=h}
 function populateRGReopenOverride(){let h='';ALL_RG_LIST.forEach(function(item,i){h+='<tr><td>'+item.skill+'</td><td>'+item.rg+'</td><td><input type="number" id="rgReopenMin_'+i+'" min="0" max="999" placeholder="-"></td></tr>'});document.getElementById('rgReopenTable').innerHTML=h}
 function populateAuditorOverride(){let h='';AUDITOR_CONFIG.forEach(function(item,i){h+='<tr><td>'+item.auditor+'</td><td>'+item.skill+'</td><td><input type="number" id="audMax_'+i+'" min="0" max="999" value="'+item.maxCount+'"></td></tr>'});document.getElementById('auditorOverrideTable').innerHTML=h}
-function getAuditorConfig(){return AUDITOR_CONFIG.map(function(item,i){var inp=document.getElementById('audMax_'+i);return Object.assign({},item,{maxCount:inp?(parseInt(inp.value)||item.maxCount):item.maxCount})})}
+function getAuditorConfig(){return AUDITOR_CONFIG.map(function(item,i){var inp=document.getElementById('audMax_'+i);var val=inp?parseInt(inp.value):NaN;return Object.assign({},item,{maxCount:isNaN(val)?item.maxCount:val})})}
 function getRGMins(){var o={};MASTER_RG_LIST.forEach(function(item,i){var inp=document.getElementById('rgMin_'+i);if(inp&&inp.value&&parseInt(inp.value)>0)o[item.rg]=parseInt(inp.value)});return o}
 function getRGReassignMins(){var o={};ALL_RG_LIST.forEach(function(item,i){var inp=document.getElementById('rgReassignMin_'+i);if(inp&&inp.value&&parseInt(inp.value)>0)o[item.rg]=parseInt(inp.value)});return o}
 function getRGReopenMins(){var o={};ALL_RG_LIST.forEach(function(item,i){var inp=document.getElementById('rgReopenMin_'+i);if(inp&&inp.value&&parseInt(inp.value)>0)o[item.rg]=parseInt(inp.value)});return o}
@@ -722,7 +722,8 @@ if(!bySkill[skill])bySkill[skill]=[];
 bySkill[skill].push(row);
 });
 Object.keys(bySkill).forEach(function(skill){
-var auds=cfg.filter(function(a){return a.skill===skill});
+// Exclude auditors with maxCount of 0
+var auds=cfg.filter(function(a){return a.skill===skill&&a.maxCount>0});
 if(!auds.length){bySkill[skill].forEach(function(r){r.auditor='(none)'});return}
 var totalTickets=bySkill[skill].length;
 var numAuditors=auds.length;
