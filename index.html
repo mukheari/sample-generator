@@ -240,6 +240,7 @@ const MASTER_RG_LIST=[
 ];
 const MASTER_RG_NAMES=MASTER_RG_LIST.map(r=>r.rg);
 const MASTER_RG_SET=new Set(MASTER_RG_NAMES);
+const MASTER_RG_LOOKUP={};MASTER_RG_NAMES.forEach(function(rg){MASTER_RG_LOOKUP[rg.toLowerCase().replace(/\s+/g,' ').trim()]=rg;});
 
 const ALL_RG_LIST=[
 {skill:"New Freeway",rg:"Seller Support T4 VCM"},{skill:"ABP All",rg:"T4 Brand Name Authorization"},{skill:"ABP All",rg:"SPS-T4-Catalog-Lockdown"},{skill:"ABP All",rg:"T4 BrandProtection"},
@@ -284,6 +285,7 @@ const ALL_RG_LIST=[
 ];
 const ALL_RG_NAMES=ALL_RG_LIST.map(r=>r.rg);
 const ALL_RG_SET=new Set(ALL_RG_NAMES);
+ALL_RG_NAMES.forEach(function(rg){if(!MASTER_RG_LOOKUP[rg.toLowerCase().replace(/\s+/g,' ').trim()])MASTER_RG_LOOKUP[rg.toLowerCase().replace(/\s+/g,' ').trim()]=rg;});
 
 const AUDITOR_CONFIG=[
 {skill:"AIND",auditor:"debkuuch",maxCount:39},{skill:"AIND",auditor:"dvya",maxCount:39},{skill:"AIND",auditor:"xsakthiv",maxCount:39},{skill:"AIND",auditor:"ramyaare",maxCount:39},{skill:"AIND",auditor:"shehmohd",maxCount:39},{skill:"AIND",auditor:"lealmicm",maxCount:39},
@@ -352,7 +354,7 @@ rawData=[];
 for(let i=1;i<lines.length;i++){
 const cols=parseRow(lines[i],delim);
 if(cols.length<=Math.max(rgIdx,ticketIdx))continue;
-const rg=(cols[rgIdx]||'').trim().replace(/^"|"$/g,'');
+let rg=(cols[rgIdx]||'').trim().replace(/^"|"$/g,'');
 const ticketId=(cols[ticketIdx]||'').trim().replace(/^"|"$/g,'');
 const colC=colCIdx!==-1&&cols.length>colCIdx?(cols[colCIdx]||'').trim().replace(/^"|"$/g,''):'';
 const rawLogin=loginIdx!==-1?(cols[loginIdx]||'').trim().replace(/^"|"$/g,''):'';
@@ -361,6 +363,9 @@ const colF=colFIdx!==-1&&cols.length>colFIdx?(cols[colFIdx]||'').trim().replace(
 let login=rawLogin||colE||'';
 // Clean invalid login values but keep the ticket
 if(login==='null'||login.startsWith('app:')||login.startsWith('arn:'))login='';
+// Normalize RG name to match master list (case-insensitive, whitespace-normalized)
+var rgKey=rg.replace(/[\u00A0\u200B\u200C\u200D\uFEFF]/g,' ').replace(/\s+/g,' ').toLowerCase().trim();
+if(rgKey&&MASTER_RG_LOOKUP[rgKey])rg=MASTER_RG_LOOKUP[rgKey];
 if(rg&&ticketId)rawData.push({login,rg,ticketId,colC,colF});
 }
 if(!rawData.length){showStatus('No valid rows found.','error');return}
@@ -406,7 +411,7 @@ document.getElementById('summaryCard').classList.remove('hidden');
 const logins=new Set(rawData.filter(r=>r.login).map(r=>r.login)),rgs=new Set(rawData.map(r=>r.rg));
 const withLogin=rawData.filter(r=>r.login).length,withoutLogin=rawData.filter(r=>!r.login).length;
 const covered=MASTER_RG_NAMES.filter(rg=>rgs.has(rg)),missing=MASTER_RG_NAMES.filter(rg=>!rgs.has(rg));
-const t4=rawData.filter(r=>r.rg.startsWith('T4')).length,nonT4=rawData.filter(r=>!r.rg.startsWith('T4')).length;
+const sensitivePool=rawData.filter(r=>MASTER_RG_SET.has(r.rg)).length;
 const reopenTotal=rawData.filter(r=>isReopen(r.colF)&&r.rg.indexOf('T4')!==-1).length;
 const reassignPool=rawData.filter(r=>r.colC&&r.colC.startsWith('T4')&&!r.rg.startsWith('T4')).length;
 // HC roster coverage
@@ -419,10 +424,25 @@ document.getElementById('statsGrid').innerHTML=
 '<div class="stat-box"><div class="stat-value">'+logins.size+'</div><div class="stat-label">Unique Logins</div></div>'+
 '<div class="stat-box '+(rosterCovered===HC_ROSTER_WK27.length?'green':'red')+'"><div class="stat-value">'+rosterCovered+'/'+HC_ROSTER_WK27.length+'</div><div class="stat-label">HC Roster Covered</div></div>'+
 '<div class="stat-box '+(covered.length===MASTER_RG_NAMES.length?'green':'orange')+'"><div class="stat-value">'+covered.length+'/'+MASTER_RG_NAMES.length+'</div><div class="stat-label">Master RGs Covered</div></div>'+
-'<div class="stat-box green"><div class="stat-value">'+t4+'</div><div class="stat-label">T4 Col B (Sensitive pool)</div></div>'+
+'<div class="stat-box green"><div class="stat-value">'+sensitivePool+'</div><div class="stat-label">Sensitive pool (Master RGs)</div></div>'+
 '<div class="stat-box orange"><div class="stat-value">'+reassignPool+'</div><div class="stat-label">Reassign pool (ColC=T4, ColB≠T4)</div></div>'+
 '<div class="stat-box purple"><div class="stat-value">'+reopenTotal+'</div><div class="stat-label">Reopen pool (ColF=reopen & ColB contains T4)</div></div>';
-if(missing.length)showStatus('Warning: '+missing.length+' master RG(s) not in data: '+missing.join(', '),'warning');
+if(missing.length){
+// Debug: check for near-matches
+var dataRGList=Array.from(rgs);
+var nearMatches=[];
+missing.forEach(function(mrg){
+var mLow=mrg.toLowerCase();
+dataRGList.forEach(function(drg){
+if(drg.toLowerCase().indexOf(mLow.substring(0,10))!==-1||mLow.indexOf(drg.toLowerCase().substring(0,10))!==-1){
+nearMatches.push(mrg+' ~ "'+drg+'"');
+}
+});
+});
+var warnMsg='Warning: '+missing.length+' master RG(s) not in data: '+missing.join(', ');
+if(nearMatches.length)warnMsg+='. Possible near-matches: '+nearMatches.join('; ');
+showStatus(warnMsg,'warning');
+}
 populateRGOverride();populateRGReassignOverride();populateRGReopenOverride();populateAuditorOverride();
 }
 
@@ -483,7 +503,7 @@ for(var li=0;li<allLogins.length;li++){
 var login=allLogins[li];
 var need=Math.min(sensMax-lc[login].s,totalMax-total(login));
 if(need<=0)continue;
-var c3=shuffle(byLogin[login].filter(function(t){return MASTER_RG_SET.has(t.rg)&&t.rg.startsWith('T4')&&!sampled[t.ticketId]}));
+var c3=shuffle(byLogin[login].filter(function(t){return MASTER_RG_SET.has(t.rg)&&!sampled[t.ticketId]}));
 c3.sort(function(a,b){return(coveredRGs[a.rg]?1:0)-(coveredRGs[b.rg]?1:0)});
 for(var i=0;i<Math.min(need,c3.length);i++){
 var p3=c3[i];sampleData.push(Object.assign({},p3,{sampleType:'Sensitive'}));sampled[p3.ticketId]=true;lc[p3.login].s++;coveredRGs[p3.rg]=true;
@@ -542,7 +562,7 @@ var p5=c5[i3];sampleData.push(Object.assign({},p5,{sampleType:'Reopen'}));sample
 // PHASE 4: Fallback - logins with 0 audits
 Object.keys(byLogin).forEach(function(login4){
 if(total(login4)>0)return;
-var c6=shuffle(byLogin[login4].filter(function(t){return t.rg.startsWith('T4')&&!sampled[t.ticketId]}));
+var c6=shuffle(byLogin[login4].filter(function(t){return (MASTER_RG_SET.has(t.rg)||ALL_RG_SET.has(t.rg))&&!sampled[t.ticketId]}));
 if(c6.length>0){var p6=c6[0];sampleData.push(Object.assign({},p6,{sampleType:'Fallback'}));sampled[p6.ticketId]=true;lc[p6.login].f++}
 });
 
