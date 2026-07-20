@@ -360,8 +360,10 @@ const colC=colCIdx!==-1&&cols.length>colCIdx?(cols[colCIdx]||'').trim().replace(
 const rawLogin=loginIdx!==-1?(cols[loginIdx]||'').trim().replace(/^"|"$/g,''):'';
 const colE=colEIdx!==-1&&cols.length>colEIdx?(cols[colEIdx]||'').trim().replace(/^"|"$/g,''):'';
 const colF=colFIdx!==-1&&cols.length>colFIdx?(cols[colFIdx]||'').trim().replace(/^"|"$/g,''):'';
-let login=rawLogin||colE||'';
-// Clean invalid login values but keep the ticket
+let login=rawLogin;
+// If Col D login is missing/invalid, fall back to Col E (resolver)
+if(!login||login==='null'||login.startsWith('app:')||login.startsWith('arn:'))login=colE;
+// If Col E also invalid, clear it
 if(login==='null'||login.startsWith('app:')||login.startsWith('arn:'))login='';
 // Normalize RG name to match master list (case-insensitive, whitespace-normalized)
 var rgKey=rg.replace(/[\u00A0\u200B\u200C\u200D\uFEFF]/g,' ').replace(/\s+/g,' ').toLowerCase().trim();
