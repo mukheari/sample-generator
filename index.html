@@ -365,6 +365,8 @@ let login=rawLogin;
 if(!login||login==='null'||login.startsWith('app:')||login.startsWith('arn:'))login=colE;
 // If Col E also invalid, clear it
 if(login==='null'||login.startsWith('app:')||login.startsWith('arn:'))login='';
+// Normalize login to lowercase for roster matching
+if(login)login=login.toLowerCase();
 // Normalize RG name to match master list (case-insensitive, whitespace-normalized)
 var rgKey=rg.replace(/[\u00A0\u200B\u200C\u200D\uFEFF]/g,' ').replace(/\s+/g,' ').toLowerCase().trim();
 if(rgKey&&MASTER_RG_LOOKUP[rgKey])rg=MASTER_RG_LOOKUP[rgKey];
@@ -415,7 +417,7 @@ const withLogin=rawData.filter(r=>r.login).length,withoutLogin=rawData.filter(r=
 const covered=MASTER_RG_NAMES.filter(rg=>rgs.has(rg)),missing=MASTER_RG_NAMES.filter(rg=>!rgs.has(rg));
 const sensitivePool=rawData.filter(r=>MASTER_RG_SET.has(r.rg)).length;
 const reopenTotal=rawData.filter(r=>isReopen(r.colF)&&r.rg.indexOf('T4')!==-1).length;
-const reassignPool=rawData.filter(r=>r.colC&&r.colC.startsWith('T4')&&!r.rg.startsWith('T4')).length;
+const reassignPool=rawData.filter(r=>{var cc=r.colC?r.colC.trim().toLowerCase():'';if(!cc||cc==='na'||cc==='n/a')return false;return r.colC.startsWith('T4')&&!r.rg.startsWith('T4')&&r.rg.toLowerCase()!=='n/a'&&r.rg.toLowerCase()!=='na';}).length;
 // HC roster coverage
 const dataLogins = new Set(rawData.filter(r=>r.login).map(r=>r.login));
 const rosterCovered = HC_ROSTER_WK27.filter(r=>dataLogins.has(r.login)).length;
@@ -505,7 +507,7 @@ for(var li=0;li<allLogins.length;li++){
 var login=allLogins[li];
 var need=Math.min(sensMax-lc[login].s,totalMax-total(login));
 if(need<=0)continue;
-var c3=shuffle(byLogin[login].filter(function(t){return MASTER_RG_SET.has(t.rg)&&!sampled[t.ticketId]}));
+var c3=shuffle(byLogin[login].filter(function(t){return (MASTER_RG_SET.has(t.rg)||ALL_RG_SET.has(t.rg))&&!sampled[t.ticketId]}));
 c3.sort(function(a,b){return(coveredRGs[a.rg]?1:0)-(coveredRGs[b.rg]?1:0)});
 for(var i=0;i<Math.min(need,c3.length);i++){
 var p3=c3[i];sampleData.push(Object.assign({},p3,{sampleType:'Sensitive'}));sampled[p3.ticketId]=true;lc[p3.login].s++;coveredRGs[p3.rg]=true;
@@ -520,7 +522,7 @@ for(var rmi=0;rmi<reassignRGsWithMin.length;rmi++){
 var rrg=reassignRGsWithMin[rmi];var rmin=rgReassignMins[rrg];
 var rcur=sampleData.filter(function(s){return s.rg===rrg&&s.sampleType==='Reassign'}).length;
 while(rcur<rmin){
-var rc=shuffle(rosterData.filter(function(t){return t.colC&&t.colC.startsWith('T4')&&!t.rg.startsWith('T4')&&!sampled[t.ticketId]&&total(t.login)<totalMax}));
+var rc=shuffle(rosterData.filter(function(t){var cc=t.colC?t.colC.trim().toLowerCase():'';if(!cc||cc==='na'||cc==='n/a')return false;return t.colC.startsWith('T4')&&!t.rg.startsWith('T4')&&t.rg.toLowerCase()!=='n/a'&&t.rg.toLowerCase()!=='na'&&!sampled[t.ticketId]&&total(t.login)<totalMax}));
 if(!rc.length)break;var rp=rc[0];sampleData.push(Object.assign({},rp,{sampleType:'Reassign',displayRG:rp.colC}));sampled[rp.ticketId]=true;lc[rp.login].r++;rcur++;
 }
 }
@@ -532,7 +534,7 @@ if(total(login2)>=totalMax)continue;
 var need2=Math.min(reassignCnt,totalMax-total(login2));
 if(need2<=0)continue;
 if(lc[login2].r>=reassignCnt)continue;
-var c4=shuffle(byLogin[login2].filter(function(t){return t.colC&&t.colC.startsWith('T4')&&!t.rg.startsWith('T4')&&!sampled[t.ticketId]}));
+var c4=shuffle(byLogin[login2].filter(function(t){var cc=t.colC?t.colC.trim().toLowerCase():'';if(!cc||cc==='na'||cc==='n/a')return false;return t.colC.startsWith('T4')&&!t.rg.startsWith('T4')&&t.rg.toLowerCase()!=='n/a'&&t.rg.toLowerCase()!=='na'&&!sampled[t.ticketId]}));
 for(var i2=0;i2<Math.min(need2-lc[login2].r,c4.length);i2++){
 var p4=c4[i2];sampleData.push(Object.assign({},p4,{sampleType:'Reassign',displayRG:p4.colC}));sampled[p4.ticketId]=true;lc[p4.login].r++;
 }
@@ -567,6 +569,40 @@ if(total(login4)>0)return;
 var c6=shuffle(byLogin[login4].filter(function(t){return (MASTER_RG_SET.has(t.rg)||ALL_RG_SET.has(t.rg))&&!sampled[t.ticketId]}));
 if(c6.length>0){var p6=c6[0];sampleData.push(Object.assign({},p6,{sampleType:'Fallback'}));sampled[p6.ticketId]=true;lc[p6.login].f++}
 });
+
+// PHASE 5: Fill remaining - logins still under totalMax get more tickets
+allLogins=shuffle(Object.keys(byLogin));
+for(var li5=0;li5<allLogins.length;li5++){
+var login5=allLogins[li5];
+var need5=totalMax-total(login5);
+if(need5<=0)continue;
+// Try sensitive first (master RGs or all known RGs) - no sensMax cap in fill phase
+var cs=shuffle(byLogin[login5].filter(function(t){return (MASTER_RG_SET.has(t.rg)||ALL_RG_SET.has(t.rg))&&!sampled[t.ticketId]}));
+for(var si=0;si<Math.min(need5,cs.length);si++){
+sampleData.push(Object.assign({},cs[si],{sampleType:'Sensitive'}));sampled[cs[si].ticketId]=true;lc[login5].s++;coveredRGs[cs[si].rg]=true;
+}
+need5=totalMax-total(login5);
+if(need5<=0)continue;
+// Try reopen
+var cr=shuffle(byLogin[login5].filter(function(t){return isReopen(t.colF)&&t.rg.indexOf('T4')!==-1&&!sampled[t.ticketId]}));
+for(var ri5=0;ri5<Math.min(need5,cr.length);ri5++){
+sampleData.push(Object.assign({},cr[ri5],{sampleType:'Reopen'}));sampled[cr[ri5].ticketId]=true;lc[login5].o++;
+}
+need5=totalMax-total(login5);
+if(need5<=0)continue;
+// Try reassign
+var cra=shuffle(byLogin[login5].filter(function(t){var cc=t.colC?t.colC.trim().toLowerCase():'';if(!cc||cc==='na'||cc==='n/a')return false;return t.colC.startsWith('T4')&&!t.rg.startsWith('T4')&&t.rg.toLowerCase()!=='n/a'&&t.rg.toLowerCase()!=='na'&&!sampled[t.ticketId]}));
+for(var ra5=0;ra5<Math.min(need5,cra.length);ra5++){
+sampleData.push(Object.assign({},cra[ra5],{sampleType:'Reassign',displayRG:cra[ra5].colC}));sampled[cra[ra5].ticketId]=true;lc[login5].r++;
+}
+need5=totalMax-total(login5);
+if(need5<=0)continue;
+// Last resort: any unsampled ticket from this login (still counts as Sensitive)
+var cany=shuffle(byLogin[login5].filter(function(t){return !sampled[t.ticketId]}));
+for(var ai=0;ai<Math.min(need5,cany.length);ai++){
+sampleData.push(Object.assign({},cany[ai],{sampleType:'Sensitive'}));sampled[cany[ai].ticketId]=true;lc[login5].s++;
+}
+}
 
 assignAuditors();
 renderResults(coveredRGs,lc);
