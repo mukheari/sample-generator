@@ -68,7 +68,7 @@ table{width:100%;border-collapse:collapse;font-size:.82em}th,td{border:1px solid
 <p style="font-size:.8em;color:#888;margin-top:-8px;margin-bottom:12px">Sensitive: ColB=T4 | Reassign: ColC=T4 & ColB≠T4 | Reopen: ColF=reopen (any RG) | Fallback: random T4 for 0-audit logins.</p>
 <div class="config-section">
 <div class="collapsible-header" onclick="toggleSection('rgOverrideBody')"><span>&#9654;</span><h3 style="margin:0">RG-wise Min Audit Count - Sensitive (optional)</h3></div>
-<p>Set minimum tickets per RG for Sensitive sampling (34 master RGs).</p>
+<p>Set minimum tickets per RG for Sensitive sampling (36 master RGs).</p>
 <div id="rgOverrideBody" class="collapsible-body hidden"><table class="config-table"><thead><tr><th>Skill</th><th>Resolver Group</th><th>Min</th></tr></thead><tbody id="rgOverrideTable"></tbody></table></div>
 </div>
 <div class="config-section">
@@ -234,10 +234,11 @@ const MASTER_RG_LIST=[
 {skill:"AIND",rg:"T4 Seller Catalog Services-IN"},{skill:"AIND",rg:"T4 Referral-fee"},{skill:"AIND",rg:"T4 EG Order Management"},{skill:"AIND",rg:"T4 KSA Order Management"},{skill:"AIND",rg:"T4 MENA Order Management"},{skill:"AIND",rg:"T4 India Andon Internal"},{skill:"AIND",rg:"T4 ML Audit group"},{skill:"AIND",rg:"T4 TRY FBA 2020"},{skill:"AIND",rg:"T4 Credit Ops Project IN"},{skill:"AIND",rg:"T4 Order Management Tier2"},{skill:"AIND",rg:"T4 Referral-fee Tier2"},{skill:"AIND",rg:"T4 AESP Tier2"},
 {skill:"BRAND",rg:"T4 BRBV"},{skill:"BRAND",rg:"T4 EIM escalations"},{skill:"BRAND",rg:"T4 ASIN throttle appeals"},{skill:"BRAND",rg:"T4 Generics Appeals"},
 {skill:"ESLIS",rg:"T4 BR ES SF"},{skill:"ESLIS",rg:"T4 MX ES SF"},{skill:"ESLIS",rg:"T4 FBA Credit Ops MENA"},{skill:"ESLIS",rg:"T4 FBA Credit Ops AU"},{skill:"ESLIS",rg:"T4 Global Remote Fulfillment"},
-{skill:"FBA",rg:"T4 Goods Package"},{skill:"FBA",rg:"T4 Matching 3p clean-up"},{skill:"FBA",rg:"T4 FBA RBS"},{skill:"FBA",rg:"T4 FBA MX"},{skill:"FBA",rg:"T4 SnS WW Ops"},
-{skill:"FUII",rg:"T4 BadCat - Fee Correction"},{skill:"FUII",rg:"T4 CS-AAQ"},{skill:"FUII",rg:"T4 ARCHE"},{skill:"FUII",rg:"T4 Video-Ads-Content"},{skill:"FUII",rg:"T4 BadCat Tier2"},
+{skill:"FBA",rg:"T4 Goods Package"},{skill:"FBA",rg:"T4 Matching 3p clean-up"},{skill:"FBA",rg:"T4 FBA MX"},{skill:"FBA",rg:"T4 SnS WW Ops"},{skill:"FBA",rg:"T4 IBA 3P Taskforce"},
+{skill:"FUII",rg:"T4 BadCat - Fee Correction"},{skill:"FUII",rg:"T4 CS-AAQ"},{skill:"FUII",rg:"T4 ARCHE"},{skill:"FUII",rg:"T4 Video-Ads-Content"},{skill:"FUII",rg:"T4 BadCat Tier2"},{skill:"FUII",rg:"T4 GCO Blitz"},
 {skill:"FREEWAY",rg:"FBA IB WF Op Specialists"},{skill:"FREEWAY",rg:"FBA Fee Execution"},
-{skill:"ESLIS",rg:"T4 TechEx"}
+{skill:"ESLIS",rg:"T4 TechEx"},
+{skill:"AIND",rg:"T4 Credit Ops Project IN Tier2"}
 ];
 const MASTER_RG_NAMES=MASTER_RG_LIST.map(r=>r.rg);
 const MASTER_RG_SET=new Set(MASTER_RG_NAMES);
@@ -282,7 +283,8 @@ const ALL_RG_LIST=[
 {skill:"DCP",rg:"T4 DCP-PCO Appeals:FBA"},{skill:"DCP",rg:"T4 DCP-PCO Appeals:FUII"},{skill:"DCP",rg:"T4 DCP-PCO Appeals:Freeway"},
 {skill:"DCP",rg:"T4 DCP-PCO Appeals:ABP"},{skill:"DCP",rg:"T4 DCP-PCO Appeals"},{skill:"FW",rg:"T4 Anchor Appeals"},
 {skill:"ESLIS",rg:"T4 SBE Discoverability"},{skill:"FW",rg:"T4 manage-your-experiments-biz"},{skill:"FBA",rg:"T4 FBA RBS"},
-{skill:"FBA",rg:"T4 IBA 3P Taskforce"},{skill:"BRAND",rg:"T4 IDAP-SPA"},{skill:"ESLIS",rg:"T4 LatAm External Fulfillment"}
+{skill:"FBA",rg:"T4 IBA 3P Taskforce"},{skill:"BRAND",rg:"T4 IDAP-SPA"},{skill:"ESLIS",rg:"T4 LatAm External Fulfillment"},
+{skill:"ESLIS",rg:"T4 PQ Books"},{skill:"ESLIS",rg:"T4 Amazon Custom"},{skill:"FUII",rg:"T4 AA BRB Programs"},{skill:"FUII",rg:"T4 GCO Blitz"},{skill:"AIND",rg:"T4 Credit Ops Project IN Tier2"}
 ];
 const ALL_RG_NAMES=ALL_RG_LIST.map(r=>r.rg);
 const ALL_RG_SET=new Set(ALL_RG_NAMES);
