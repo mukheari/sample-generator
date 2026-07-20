@@ -65,7 +65,7 @@ table{width:100%;border-collapse:collapse;font-size:.82em}th,td{border:1px solid
 <label>Sensitive max/login:</label><input type="number" id="sensitiveMax" value="2" min="0" max="10" style="width:70px">
 <label>Reassign/login:</label><input type="number" id="reassignMax" value="1" min="0" max="10" style="width:70px">
 </div>
-<p style="font-size:.8em;color:#888;margin-top:-8px;margin-bottom:12px">Sensitive: ColB=T4 | Reassign: ColC=T4 & ColB≠T4 | Reopen: ColF=reopen & ColB=T4 | Fallback: random T4 for 0-audit logins.</p>
+<p style="font-size:.8em;color:#888;margin-top:-8px;margin-bottom:12px">Sensitive: ColB=T4 | Reassign: ColC=T4 & ColB≠T4 | Reopen: ColF=reopen (any RG) | Fallback: random T4 for 0-audit logins.</p>
 <div class="config-section">
 <div class="collapsible-header" onclick="toggleSection('rgOverrideBody')"><span>&#9654;</span><h3 style="margin:0">RG-wise Min Audit Count - Sensitive (optional)</h3></div>
 <p>Set minimum tickets per RG for Sensitive sampling (33 master RGs).</p>
@@ -305,7 +305,7 @@ function handleFile(e){const f=e.target.files[0];if(f)processFile(f)}
 function processFile(file){const r=new FileReader();r.onload=e=>parseCSV(e.target.result);r.readAsText(file)}
 function handlePaste(){const t=document.getElementById('pasteArea').value.trim();if(!t){showStatus('Paste data first.','error');return}parseCSV(t)}
 function detectDelimiter(h){const t=(h.match(/\t/g)||[]).length,c=(h.match(/,/g)||[]).length;return t>=c?'\t':','}
-function parseRow(line){const res=[];let cur='',inQ=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"')inQ=!inQ;else if(c===','&&!inQ){res.push(cur);cur=''}else cur+=c}res.push(cur);return res}
+function parseRow(line,delim){delim=delim||',';const res=[];let cur='',inQ=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"')inQ=!inQ;else if(c===delim&&!inQ){res.push(cur);cur=''}else cur+=c}res.push(cur);return res}
 function showStatus(msg,type){const s=document.getElementById('uploadStatus');s.textContent=msg;s.className='upload-status '+type}
 
 function detectColumns(headers){
@@ -339,7 +339,7 @@ function parseCSV(text){
 const lines=text.trim().split(/\r?\n/).filter(l=>l.trim());
 if(lines.length<2){showStatus('Need header + data rows.','error');return}
 const delim=detectDelimiter(lines[0]);
-const headers=delim===','?parseRow(lines[0]):lines[0].split(delim);
+const headers=parseRow(lines[0],delim);
 const{loginIdx,rgIdx,ticketIdx,colCIdx,colEIdx,colFIdx}=detectColumns(headers);
 if(rgIdx===-1||ticketIdx===-1){showStatus('Cannot detect ticket_id or assigned_to_group columns.','error');return}
 let msg='Detected: Ticket="'+headers[ticketIdx].trim()+'" RG(B)="'+headers[rgIdx].trim()+'"';
@@ -350,7 +350,7 @@ if(colFIdx!==-1)msg+=' ColF(reopen)="'+headers[colFIdx].trim()+'"';
 showStatus(msg,'success');
 rawData=[];
 for(let i=1;i<lines.length;i++){
-const cols=delim===','?parseRow(lines[i]):lines[i].split(delim);
+const cols=parseRow(lines[i],delim);
 if(cols.length<=Math.max(rgIdx,ticketIdx))continue;
 const rg=(cols[rgIdx]||'').trim().replace(/^"|"$/g,'');
 const ticketId=(cols[ticketIdx]||'').trim().replace(/^"|"$/g,'');
@@ -358,19 +358,20 @@ const colC=colCIdx!==-1&&cols.length>colCIdx?(cols[colCIdx]||'').trim().replace(
 const rawLogin=loginIdx!==-1?(cols[loginIdx]||'').trim().replace(/^"|"$/g,''):'';
 const colE=colEIdx!==-1&&cols.length>colEIdx?(cols[colEIdx]||'').trim().replace(/^"|"$/g,''):'';
 const colF=colFIdx!==-1&&cols.length>colFIdx?(cols[colFIdx]||'').trim().replace(/^"|"$/g,''):'';
-const login=rawLogin||colE||'';
-// Skip invalid logins (null, system accounts, ARN roles)
-if(!login || login==='null' || login.startsWith('app:') || login.startsWith('arn:'))continue;
-if(rg&&ticketId&&login)rawData.push({login,rg,ticketId,colC,colF});
+let login=rawLogin||colE||'';
+// Clean invalid login values but keep the ticket
+if(login==='null'||login.startsWith('app:')||login.startsWith('arn:'))login='';
+if(rg&&ticketId)rawData.push({login,rg,ticketId,colC,colF});
 }
 if(!rawData.length){showStatus('No valid rows found.','error');return}
-showStatus('Loaded '+rawData.length+' tickets, '+new Set(rawData.map(r=>r.login)).size+' logins, '+new Set(rawData.map(r=>r.rg)).size+' RGs','success');
+var colFCount=rawData.filter(r=>r.colF&&r.colF.trim()!=='').length;
+showStatus('Loaded '+rawData.length+' tickets, '+new Set(rawData.map(r=>r.login)).size+' logins, '+new Set(rawData.map(r=>r.rg)).size+' RGs. ColF detected at index '+colFIdx+' with '+colFCount+' non-empty values.','success');
 document.getElementById('configCard').classList.remove('hidden');
 showSummary();
 checkMissingLogins();
 }
 
-function isReopen(v){if(!v)return false;var l=v.trim().toLowerCase();return l==='reopen'}
+function isReopen(v){if(!v)return false;var l=String(v).trim().toLowerCase();if(l.indexOf('not reopen')!==-1||l.indexOf('not a reopen')!==-1||l.indexOf('no reopen')!==-1)return false;return l==='reopen'||l==='reopened'||l==='ticket reopen'||l==='ticket reopened'||l.indexOf('reopen')!==-1;}
 
 // ===== CHECK MISSING LOGINS FROM HC ROSTER =====
 function checkMissingLogins(){
@@ -402,22 +403,25 @@ document.getElementById('missingLoginsList').innerHTML = listHtml;
 
 function showSummary(){
 document.getElementById('summaryCard').classList.remove('hidden');
-const logins=new Set(rawData.map(r=>r.login)),rgs=new Set(rawData.map(r=>r.rg));
+const logins=new Set(rawData.filter(r=>r.login).map(r=>r.login)),rgs=new Set(rawData.map(r=>r.rg));
+const withLogin=rawData.filter(r=>r.login).length,withoutLogin=rawData.filter(r=>!r.login).length;
 const covered=MASTER_RG_NAMES.filter(rg=>rgs.has(rg)),missing=MASTER_RG_NAMES.filter(rg=>!rgs.has(rg));
 const t4=rawData.filter(r=>r.rg.startsWith('T4')).length,nonT4=rawData.filter(r=>!r.rg.startsWith('T4')).length;
-const reopen=rawData.filter(r=>isReopen(r.colF)&&r.rg.startsWith('T4')).length;
+const reopenTotal=rawData.filter(r=>isReopen(r.colF)&&r.rg.indexOf('T4')!==-1).length;
 const reassignPool=rawData.filter(r=>r.colC&&r.colC.startsWith('T4')&&!r.rg.startsWith('T4')).length;
 // HC roster coverage
-const dataLogins = new Set(rawData.map(r=>r.login));
+const dataLogins = new Set(rawData.filter(r=>r.login).map(r=>r.login));
 const rosterCovered = HC_ROSTER_WK27.filter(r=>dataLogins.has(r.login)).length;
 document.getElementById('statsGrid').innerHTML=
 '<div class="stat-box"><div class="stat-value">'+rawData.length+'</div><div class="stat-label">Total Tickets</div></div>'+
+'<div class="stat-box"><div class="stat-value">'+withLogin+'</div><div class="stat-label">Tickets with Login</div></div>'+
+'<div class="stat-box red"><div class="stat-value">'+withoutLogin+'</div><div class="stat-label">Tickets without Login</div></div>'+
 '<div class="stat-box"><div class="stat-value">'+logins.size+'</div><div class="stat-label">Unique Logins</div></div>'+
 '<div class="stat-box '+(rosterCovered===HC_ROSTER_WK27.length?'green':'red')+'"><div class="stat-value">'+rosterCovered+'/'+HC_ROSTER_WK27.length+'</div><div class="stat-label">HC Roster Covered</div></div>'+
 '<div class="stat-box '+(covered.length===MASTER_RG_NAMES.length?'green':'orange')+'"><div class="stat-value">'+covered.length+'/'+MASTER_RG_NAMES.length+'</div><div class="stat-label">Master RGs Covered</div></div>'+
 '<div class="stat-box green"><div class="stat-value">'+t4+'</div><div class="stat-label">T4 Col B (Sensitive pool)</div></div>'+
 '<div class="stat-box orange"><div class="stat-value">'+reassignPool+'</div><div class="stat-label">Reassign pool (ColC=T4, ColB≠T4)</div></div>'+
-'<div class="stat-box purple"><div class="stat-value">'+reopen+'</div><div class="stat-label">Reopen pool (ColF=reopen, ColB=T4)</div></div>';
+'<div class="stat-box purple"><div class="stat-value">'+reopenTotal+'</div><div class="stat-label">Reopen pool (ColF=reopen & ColB contains T4)</div></div>';
 if(missing.length)showStatus('Warning: '+missing.length+' master RG(s) not in data: '+missing.join(', '),'warning');
 populateRGOverride();populateRGReassignOverride();populateRGReopenOverride();populateAuditorOverride();
 }
@@ -512,14 +516,14 @@ var p4=c4[i2];sampleData.push(Object.assign({},p4,{sampleType:'Reassign',display
 }
 }
 
-// PHASE 3: Reopen - Column F = "reopen" AND Column B (rg) starts with T4
+// PHASE 3: Reopen - Column F = "reopen" (any RG)
 var rgReopenMins=getRGReopenMins();
 var reopenRGsWithMin=Object.keys(rgReopenMins);
 for(var omi=0;omi<reopenRGsWithMin.length;omi++){
 var org=reopenRGsWithMin[omi];var omin=rgReopenMins[org];
 var ocur=sampleData.filter(function(s){return s.rg===org&&s.sampleType==='Reopen'}).length;
 while(ocur<omin){
-var oc=shuffle(rosterData.filter(function(t){return t.rg===org&&t.rg.startsWith('T4')&&isReopen(t.colF)&&!sampled[t.ticketId]&&total(t.login)<totalMax}));
+var oc=shuffle(rosterData.filter(function(t){return t.rg===org&&t.rg.indexOf('T4')!==-1&&isReopen(t.colF)&&!sampled[t.ticketId]&&total(t.login)<totalMax}));
 if(!oc.length)break;var op=oc[0];sampleData.push(Object.assign({},op,{sampleType:'Reopen'}));sampled[op.ticketId]=true;lc[op.login].o++;ocur++;
 }
 }
@@ -529,7 +533,7 @@ for(var li3=0;li3<allLogins.length;li3++){
 var login3=allLogins[li3];
 var need3=totalMax-total(login3);
 if(need3<=0)continue;
-var c5=shuffle(byLogin[login3].filter(function(t){return isReopen(t.colF)&&t.rg.startsWith('T4')&&!sampled[t.ticketId]}));
+var c5=shuffle(byLogin[login3].filter(function(t){return isReopen(t.colF)&&t.rg.indexOf('T4')!==-1&&!sampled[t.ticketId]}));
 for(var i3=0;i3<Math.min(need3,c5.length);i3++){
 var p5=c5[i3];sampleData.push(Object.assign({},p5,{sampleType:'Reopen'}));sampled[p5.ticketId]=true;lc[p5.login].o++;
 }
@@ -830,7 +834,7 @@ document.getElementById('auditorDistTable').innerHTML=ad;
 
 // Type breakdown
 var td2='<table><thead><tr><th>Type</th><th>Count</th><th>Logins</th><th>RGs</th><th>Description</th></tr></thead><tbody>';
-[{n:'Sensitive',d:'ColB starts with T4 (master RGs), max 2/login'},{n:'Reassign',d:'ColC=T4 & ColB≠T4, 1/login'},{n:'Reopen',d:'ColF=reopen & ColB=T4, fills remaining'},{n:'Fallback',d:'Random T4 for 0-audit logins'}].forEach(function(t){
+[{n:'Sensitive',d:'ColB starts with T4 (master RGs), max 2/login'},{n:'Reassign',d:'ColC=T4 & ColB≠T4, 1/login'},{n:'Reopen',d:'ColF=reopen (any RG), fills remaining'},{n:'Fallback',d:'Random T4 for 0-audit logins'}].forEach(function(t){
 var items=sampleData.filter(function(s){return s.sampleType===t.n});
 var lset={},rset={};items.forEach(function(i2){lset[i2.login]=true;rset[i2.rg]=true});
 td2+='<tr><td><span class="tag tag-'+t.n.toLowerCase()+'">'+t.n+'</span></td><td>'+items.length+'</td><td>'+Object.keys(lset).length+'</td><td>'+Object.keys(rset).length+'</td><td>'+t.d+'</td></tr>';
